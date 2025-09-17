@@ -1,0 +1,27 @@
+/*
+contributors: [Stefan Gustavson, Ian McEwan]
+description: modulus of 289
+use: <float|vec2|vec3|vec4> mod289(<float|vec2|vec3|vec4> x)
+*/
+#ifndef FNC_MOD289
+#define FNC_MOD289
+float mod289(const in float x) { return x - floor(x * (1. / 289.)) * 289.; }
+vec2 mod289(const in vec2 x) { return x - floor(x * (1. / 289.)) * 289.; }
+vec3 mod289(const in vec3 x) { return x - floor(x * (1. / 289.)) * 289.; }
+vec4 mod289(const in vec4 x) { return x - floor(x * (1. / 289.)) * 289.; }
+#endif
+
+/*
+contributors: [Stefan Gustavson, Ian McEwan]
+description: permute
+use: <float|vec2|vec3|vec4> permute(<float|vec2|vec3|vec4> x)
+examples:
+    - https://raw.githubusercontent.com/patriciogonzalezvivo/lygia_examples/main/math_functions.frag
+*/
+#ifndef FNC_PERMUTE
+#define FNC_PERMUTE
+float permute(const in float v) { return mod289(((v * 34.0) + 1.0) * v); }
+vec2 permute(const in vec2 v) { return mod289(((v * 34.0) + 1.0) * v); }
+vec3 permute(const in vec3 v) { return mod289(((v * 34.0) + 1.0) * v); }
+vec4 permute(const in vec4 v) { return mod289(((v * 34.0) + 1.0) * v); }
+#endif

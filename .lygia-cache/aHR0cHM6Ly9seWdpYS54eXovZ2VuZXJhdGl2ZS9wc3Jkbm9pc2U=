@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="shader,GLSL,HLSL,Metal,library" />
+    <meta name="description" content="GLSL/HLSL/WGSL/Metal/CUDA Shader library"/>
+
+    <!— Open Graph data —>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="LYGIA Shader Library"/>
+    <meta property="og:site_name" content="LYGIA Shader Library"/>
+    <meta property="og:description" content="GLSL/HLSL/WGSL/Metal/CUDA Shader library"/>
+    <meta property="og:image" content="https://lygia.xyz/imgs/lygia.png"/>
+    <meta property="og:image:secure_url" content="httpss://lygia.xyz/imgs/lygia.png"/>
+    <meta property="og:image:type" content="image/png"/>
+    <meta property="og:image:width" content="399" />
+    <meta property="og:image:height" content="399" />
+
+    <!— FavIcon —>
+
+    <link href="/imgs/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+    <link href="/imgs/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32" />
+    <link href="/imgs/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16" />
+    <link href="/imgs/site.webmanifest" rel="manifest" />
+    <link href="/imgs/safari-pinned-tab.svg" rel="mask-icon" color="#5bbad5" />
+
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <link href="/css/default.css" type="text/css" rel="stylesheet" />
+    <link href="/css/atelier-forest-light.min.css" type="text/css" rel="stylesheet" />
+    
+    <link href="/css/glslEditor.css" type="text/css" rel="stylesheet" />
+    <script src="/js/glslEditor.js" type="application/javascript" ></script>
+    <link href="/css/style.css" type="text/css" rel="stylesheet" />
+
+    <script>
+        (function(w, d, t, h, s, n) {
+            w.FlodeskObject = n;
+            var fn = function() {
+            (w[n].q = w[n].q || []).push(arguments);
+            };
+            w[n] = w[n] || fn;
+            var f = d.getElementsByTagName(t)[0];
+            var v = "?v=" + Math.floor(new Date().getTime() / (120 * 1000)) * 60;
+            var sm = d.createElement(t);
+            sm.async = true;
+            sm.type = "module";
+            sm.src = h + s + ".mjs" + v;
+            f.parentNode.insertBefore(sm, f);
+            var sn = d.createElement(t);
+            sn.async = true;
+            sn.noModule = true;
+            sn.src = h + s + ".js" + v;
+            f.parentNode.insertBefore(sn, f);
+        })(window, document, "script", "https://assets.flodesk.com", "/universal", "fd");
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Q4P3EH38W"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-2Q4P3EH38W');
+    </script>
+
+    <title>LYGIA Shader Library</title>
+<link href="/css/tabs.css" type="text/css" rel="stylesheet" />
+    </head>
+<body>
+<a href="https://lygia.xyz/"><img src="https://lygia.xyz/imgs/lygia.svg" width="200" style="display: block; margin-left: auto; margin-right: auto; filter: drop-shadow(2px 3px 4px gray);"></a> <h1>LYGIA Shader Library</h1>
+<p><a href="https://github.com/sponsors/patriciogonzalezvivo"><img alt="" src="https://img.shields.io/static/v1?label=Sponsor&amp;message=%E2%9D%A4&amp;logo=GitHub"></a></p>
+<h2>psrdnoise  (<a href="/"><code>lygia</code></a>/<a href="/generative"><code>generative</code></a>/<a href="/generative/psrdnoise"><code>psrdnoise</code></a>)</h2>
+<p>Tiling simplex flow noise in 2-D and 3-D from <a href="\<a href="https://github.com/stegu/psrdnoise">https://github.com/stegu/psrdnoise\</a>"><a href="https://github.com/stegu/psrdnoise">https://github.com/stegu/psrdnoise</a></a>
+"vec2/3 x" is the point to evaluate,
+"vec2/3 period" is the desired periods 
+"float alpha" is the rotation (in radians) for the swirling gradients.
+The "float" return value is the noise value n,
+the "out gradient" argument returns the first order derivatives,
+and "out dg" returns the second order derivatives as (dn2/dx2, dn2/dy2, dn2/dxy)
+For the original code please visit: <a href="\<a href="https://github.com/stegu/psrdnoise">https://github.com/stegu/psrdnoise\</a>"><a href="https://github.com/stegu/psrdnoise">https://github.com/stegu/psrdnoise</a></a></p>
+<div class="tab">
+<button class="tablinks active" onclick="openTab(event, 'glsl')">GLSL</button><button class="tablinks" onclick="openTab(event, 'hlsl')">HLSL</button><button class="tablinks" onclick="openTab(event, 'msl')">Metal</button></div>
+<div id="glsl" class="tabcontent">
+<p>Dependencies:</p>
+<ul>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/mod289"><code>mod289</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/permute"><code>permute</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/taylorInvSqrt"><code>taylorInvSqrt</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/grad4"><code>grad4</code></a>.<code>glsl</code></li>
+</ul>
+<p>Use:</p>
+<pre><code class="language-cpp">&lt;float&gt; psrdnoise(&lt;vec2|vec3&gt; x, &lt;vec2|vec3&gt; period, &lt;float&gt; alpha, out &lt;vec2|vec3&gt; gradient [, out &lt;vec3&gt; dg])
+</code></pre>
+<p><a href="https://github.com/patriciogonzalezvivo/lygia/tree/main/generative/psrdnoise.glsl">Check it on Github</a></p></div>
+<div id="hlsl" class="tabcontent">
+<p>Dependencies:</p>
+<ul>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/mod289"><code>mod289</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/permute"><code>permute</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/taylorInvSqrt"><code>taylorInvSqrt</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/grad4"><code>grad4</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/mod"><code>mod</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/greaterThan"><code>greaterThan</code></a>.<code>glsl</code></li>
+</ul>
+<p>Use:</p>
+<pre><code class="language-cpp">&lt;float&gt; psrdnoise(&lt;float2|float3&gt; x, &lt;float2|float3&gt; period, &lt;float&gt; alpha, out &lt;float2|float3&gt; gradient [, out &lt;float3&gt; dg])
+</code></pre>
+<p><a href="https://github.com/patriciogonzalezvivo/lygia/tree/main/generative/psrdnoise.hlsl">Check it on Github</a></p></div>
+<div id="msl" class="tabcontent">
+<p>Dependencies:</p>
+<ul>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/greaterThan"><code>greaterThan</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/mod"><code>mod</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/mod289"><code>mod289</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/permute"><code>permute</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/taylorInvSqrt"><code>taylorInvSqrt</code></a>.<code>glsl</code></li>
+<li><a href="/"><code>lygia</code></a>/<a href="/math"><code>math</code></a>/<a href="/math/grad4"><code>grad4</code></a>.<code>glsl</code></li>
+</ul>
+<p>Use:</p>
+<pre><code class="language-cpp">&lt;float&gt; psrdnoise(&lt;float2|float3&gt; x, &lt;float2|float3&gt; period, &lt;float&gt; alpha, out &lt;float2|float3&gt; gradient [, out &lt;float3&gt; dg])
+</code></pre>
+<p><a href="https://github.com/patriciogonzalezvivo/lygia/tree/main/generative/psrdnoise.msl">Check it on Github</a></p></div>
+<h2>License</h2>
+<p>Copyright 2021-2023 by Stefan Gustavson and Ian McEwan.
+Published under the terms of the MIT license:
+<a href="https://opensource.org/license/mit/">https://opensource.org/license/mit/</a></p>
+<p>LYGIA is dual-licensed under <a href="https://prosperitylicense.com/versions/3.0.0">the Prosperity License</a> and the <a href="https://lygia.xyz/license">Patron License</a> for <a href="https://github.com/sponsors/patriciogonzalezvivo">sponsors</a> and <a href="https://github.com/patriciogonzalezvivo/lygia/graphs/contributors">contributors</a>, created and lead by <a href="https://patriciogonzalezvivo.com">Patricio Gonzalez Vivo</a>.</p>
+<p><a href="https://github.com/sponsors/patriciogonzalezvivo">Sponsors</a> and <a href="https://github.com/patriciogonzalezvivo/lygia/graphs/contributors">contributors</a> are automatically added to the <a href="https://lygia.xyz/license">Patron License</a> and they can ignore the any non-commercial rule of <a href="https://prosperitylicense.com/versions/3.0.0">the Prosperity Licensed</a> software (please take a look to the exception).</p>
+<p>It's also possible to get a permanent comercial license hook to a single and specific version of LYGIA.</p>
+<h2>Get the latest news and releases</h2>
+<p>Sign up for the news letter bellow, joing <a href="https://shader.zone">the LYGIA's channel on Discord</a> or follow the <a href="https://github.com/patriciogonzalezvivo/lygia">Github repository</a></p>
+    <div id="fd-form-623359074e5181d777e479f9"></div>
+
+    <script>
+        window.fd('form', {
+            formId: '623359074e5181d777e479f9',
+            containerEl: '#fd-form-623359074e5181d777e479f9'
+        });
+    </script>
+
+    <script src="/js/highlight.min.js"></script>
+    <script> 
+        hljs.highlightAll(); 
+
+        function openTab(evt, tabName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        } 
+        
+        document.getElementById("glsl").style.display = "block";
+
+        var ccList = document.querySelectorAll(".codeAndCanvas");
+
+        for(var i = 0; i < ccList.length; i++){
+            if ( ccList[i].hasAttribute("data") ) {
+                let srcFile = ccList[i].getAttribute("data");
+                var editor = new GlslEditor(ccList[i], {
+                    canvas_size: 300,
+                    canvas_follow: true,
+                    canvas_float: 'right',
+                    tooltips: true,
+                    exportIcon: true,
+                });
+                editor.open(srcFile);
+                glslEditors.push(editor);
+            }
+        }
+
+    </script>
+
+</body>
+</html>

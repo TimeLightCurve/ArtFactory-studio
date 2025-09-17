@@ -1,0 +1,123 @@
+{
+  "sheetsById": {
+    "art factory sheet": {
+      "staticOverrides": {
+        "byObject": {
+          "imageProgress4": {},
+          "imageProgress3": {
+            "x": 0
+          },
+          "imageProgress2": {
+            "x": 1
+          },
+          "Camera": {
+            "position": {
+              "z": 8,
+              "x": 0,
+              "y": 0
+            },
+            "fov": 120
+          }
+        }
+      },
+      "sequence": {
+        "subUnitsPerUnit": 30,
+        "length": 10,
+        "type": "PositionalSequence",
+        "tracksByObject": {
+          "imageProgress": {
+            "trackData": {
+              "XAAJ82IWBS": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "imageProgress:[\"x\"]",
+                "keyframes": [
+                  {
+                    "id": "r7TXwGbngz",
+                    "position": 0,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "type": "bezier",
+                    "value": 0
+                  },
+                  {
+                    "id": "46xmWVFVM_",
+                    "position": 3.033,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "type": "bezier",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "trackIdByPropPath": {
+              "[\"x\"]": "XAAJ82IWBS"
+            }
+          },
+          "imageProgress4": {
+            "trackData": {
+              "rFXSmbJFag": {
+                "type": "BasicKeyframedTrack",
+                "__debugName": "imageProgress4:[\"x\"]",
+                "keyframes": [
+                  {
+                    "id": "Wh7vB7WGPy",
+                    "position": -0.033,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "type": "bezier",
+                    "value": 0
+                  },
+                  {
+                    "id": "eF0gwCHmMC",
+                    "position": 3.267,
+                    "connectedRight": true,
+                    "handles": [
+                      0.6271146798133753,
+                      0.7142857142857143,
+                      0.5,
+                      0
+                    ],
+                    "type": "bezier",
+                    "value": 12
+                  }
+                ]
+              }
+            },
+            "trackIdByPropPath": {
+              "[\"x\"]": "rFXSmbJFag"
+            }
+          },
+          "imageProgress3": {
+            "trackData": {},
+            "trackIdByPropPath": {}
+          },
+          "Camera": {
+            "trackData": {},
+            "trackIdByPropPath": {}
+          }
+        }
+      }
+    }
+  },
+  "definitionVersion": "0.4.0",
+  "revisionHistory": [
+    "WE18mZLGgQ9fX-DJ",
+    "137Dlz6pO1F67tBT"
+  ]
+}
