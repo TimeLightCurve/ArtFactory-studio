@@ -1,7 +1,8 @@
 import Triangle from '@/src/assets/svg/logo/Triangle'
 import { useIntroStore } from '@/src/lib/store/useIntroStore'
 import { CornerBottomLeftIcon, CornerBottomRightIcon, CornerTopLeftIcon, CornerTopRightIcon } from '@radix-ui/react-icons'
-import { motion, useMotionValueEvent, useScroll } from 'motion/react'
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
+import { video } from 'motion/react-client'
 import { useState } from 'react'
 
 export default function Tracker() {
@@ -19,6 +20,7 @@ export default function Tracker() {
 		}
 	})
 	const introCompleted = useIntroStore((state) => state.introCompleted)
+	const videoClicked = useIntroStore((state) => state.videoClicked)
 
 	return (
 		<>
@@ -42,22 +44,26 @@ export default function Tracker() {
 						</motion.div>
 					</div>
 
-
-					<motion.div
-						initial={{ scale: 1, opacity: 0.5 }}
-						animate={borderFocused ? { scale: 1., opacity: 1 } : { scale: 1.2, opacity: 0.2 }}
-						transition={{ type: "spring", stiffness: 50, damping: 10, duration: 1.5 }}
-						className=' absolute flex-col w-[39%] h-auto aspect-[16/9.5] text-slate-200/50 '
-					>
-						<div className=' flex w-full h-1/2 justify-between items-start'>
-							<CornerTopLeftIcon className=' size-6' />
-							<CornerTopRightIcon className=' size-6' />
-						</div>
-						<div className=' flex w-full h-1/2 justify-between items-end'>
-							<CornerBottomLeftIcon className=' size-6' />
-							<CornerBottomRightIcon className=' size-6' />
-						</div>
-					</motion.div>
+					<AnimatePresence>
+						{!videoClicked.clicked &&
+							<motion.div
+							initial={{ scale: 1.2, opacity: 0.5 }}
+							animate={borderFocused ? { scale: 1., opacity: 1 } : { scale: 1.2, opacity: 0.2 }}
+							exit={{opacity: 0, scale: 1.2}}
+							transition={{ type: "spring", stiffness: 50, damping: 10, duration: 1.5 }}
+							className=' absolute flex-col w-[39%] h-auto aspect-[16/9.5] text-slate-200/50 '
+						>
+							<div className=' flex w-full h-1/2 justify-between items-start'>
+								<CornerTopLeftIcon className=' size-6' />
+								<CornerTopRightIcon className=' size-6' />
+							</div>
+							<div className=' flex w-full h-1/2 justify-between items-end'>
+								<CornerBottomLeftIcon className=' size-6' />
+								<CornerBottomRightIcon className=' size-6' />
+							</div>
+						</motion.div>
+						}
+					</AnimatePresence>
 				</>
 			)
 			:

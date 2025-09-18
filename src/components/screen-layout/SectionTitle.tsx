@@ -21,12 +21,13 @@ const titles = [
 export default function SectionTitle() {
 
 	const introCompleted = useIntroStore((state) => state.introCompleted)
+	const videoClicked = useIntroStore((state) => state.videoClicked)
 	const { scrollYProgress } = useScroll()
 
 	const sections = titles.length
 	const lastIndexRef = useRef(-1)
 	const [heroTitle, setHeroTitle] = useState(titles[0])
-	const [animationStart, setAnimationStart] = useState(false)
+	const [animationStart, setAnimationStart] = useState(true)
 	const [scrollDirection, setScrollDirection] = useState(1) // 1 down, -1 up
 	const lenis = useLenis()
 
@@ -59,16 +60,16 @@ export default function SectionTitle() {
 
 	const charVariants = {
 		hidden: { x: scrollDirection === 1 ? 200 : -200},
-		show: { x: 0, transition: { type: 'spring', bounce: 0.15, duration: 0.5 } },
-		hide: { x: scrollDirection === 1 ? -200 : 200, transition: { duration: 0.4 } },
+		show: { x: 0, transition: { type: 'spring', bounce: 0.1, duration: 0.6 } },
+		hide: { x: scrollDirection === 1 ? -200 : 200, transition: { duration: 0.6 } },
 	} as const
 
 
 
 	return (
-		<div className="flex flex-row w-[54%] aspect-video h-auto gap-16 flex-wrap pl-10 shrink-0">
+		<div className="flex flex-row w-[54%] aspect-video h-[54%] gap-16 flex-wrap pl-10 shrink-0">
 			<AnimatePresence mode="wait" initial={false}>
-				{introCompleted && animationStart && (
+				{introCompleted && animationStart && !videoClicked.clicked && (
 					<motion.div
 						key={heroTitle} // Force unmount/mount on title change for exit/enter to run
 						className="flex w-full h-full justify-start items-center flex-wrap gap-10"
@@ -81,7 +82,7 @@ export default function SectionTitle() {
 							<>
 							<motion.div
 								key={`${heroTitle}-${index}`}
-								className="flex w-fit h-fit justify-start items-center font-bold text-[12rem] leading-[9rem] font-chakra text-slate-100/40 overflow-hidden"
+								className="flex w-fit h-fit justify-start items-center font-bold text-4xl leading-10 lg:text-[8rem] xl:text-[10rem] 2xl:text-[12rem] lg:leading-[5rem] xl:leading-[7rem] 2xl:leading-[9rem] font-chakra text-slate-100/40 overflow-hidden"
 								// variants={charVariants}
 							>
 								<motion.span

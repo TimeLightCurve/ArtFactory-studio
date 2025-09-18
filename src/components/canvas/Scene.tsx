@@ -89,8 +89,8 @@ export default function Scene({ ...props }) {
 						antialias: false,
 						preserveDrawingBuffer: true,
 						powerPreference: 'high-performance',
-						toneMappingExposure: 1,
-						precision: "highp",
+						// toneMappingExposure: 1,
+						// precision: "highp",
 					}}
 					onCreated={({ gl }) => {
 						gl.clearDepth()

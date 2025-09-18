@@ -72,6 +72,8 @@ export default function VideoTile({index, url}: VideoProps) {
 
 	const tileWidthFactor = 20.9
 
+	
+
 	// const imageTextureRef = useRef<THREE.Texture>(null)
 
 	// const videoTextureRef = useRef<THREE.VideoTexture>(null)
@@ -83,51 +85,125 @@ export default function VideoTile({index, url}: VideoProps) {
 
 	const planeRef = useRef<THREE.Mesh>(null)
 
-	useMotionValueEvent(scrollYProgress, "change", (scrollYProgress) => {
-		indexTracker.current = (scrollYProgress * 4)
-		// scrollProgressRef.current = scrollYProgress * 4 % 1
-		// indexTracker.current = Math.floor((scrollYProgress * 100) / (100 / 4) + 0.04)
-		// indexTracker.current = (scrollYProgress * 100) / 16.6667
-	})
-
-
+	
+	
 	const videoTexture = useVideoTexture(url,{
 		start: false,
 		muted: true,
 		loop: true,
+		controls: true,
+		autoplay: false,
+		playsInline: true,
 	})
-
+	
 	const firstPlayDelayedRef = useRef(false)
 	const {width} = useWindowSize()
 	const tileWidth = width ? width : 1920
 	const tileHeight = tileWidth * 9 / 16
 
+	const tileElevation = tileWidth > 1440 ? 4.4 : 4.8
 
-	useEffect(() => {
+	const doOnce = useRef(false)
+	const indexTrackerStore = useRef(0)
+	
+	useMotionValueEvent(scrollYProgress, "change", (scrollYProgress) => {
+		indexTracker.current = (scrollYProgress * 4)
+
+		const tracker = (scrollYProgress * 4 + 0.0006)
+		const currentVideo = new Number(tracker.toFixed(2)).valueOf()
+
+		// console.log(Math.floor(tracker))
+		// console.log('indexTrackerStore:', new Number(tracker.toFixed(2)).valueOf())
+
+		if (currentVideo === Math.floor(tracker)){
+			console.log('resetting doOnce')
+			doOnce.current = false
+		}
+
+		if(!doOnce.current){
+			if (currentVideo === index) {
+				console.log('testttt')
+				videoTexture.image.play().catch(() => { })
+				indexTrackerStore.current = Math.floor(tracker)
+				doOnce.current = true
+			} else {
+				
+				videoTexture.image.pause()
+				videoTexture.image.currentTime = 0
+				indexTrackerStore.current = Math.floor(tracker)
+				doOnce.current = true
+			}
+		}
+		
+		
+	})
+
+	useEffect(()=>{
 		const vid = videoTexture?.image as HTMLVideoElement | undefined
 		if (!vid) return
 
 		let timeoutId: number | undefined
-		const shouldPlay = visible && index === videoClicked.videoIndex
 
-		if (shouldPlay) {
-			if (!introCompleted && !firstPlayDelayedRef.current) {
+		// vid.pause()
+		// vid.currentTime = 0
+
+		if(index === 0){
+			// if (!introCompleted ) {
+				// vid.pause()
+				// vid.currentTime = 0
 				timeoutId = window.setTimeout(() => {
 					vid.play().catch(() => { })
-					firstPlayDelayedRef.current = true
-				}, 600)
-			} else {
-				vid.play().catch(() => { })
-			}
-		} else {
-			vid.pause()
-			vid.currentTime = 0
+					// firstPlayDelayedRef.current = true
+				}, 6500)
+				// vid.pause()
+				// vid.currentTime = 0
+			// } 
+			// else {
+			// 	console.log('playing video')
+			// 	vid.currentTime = 0
+			// 	vid.play().catch(() => { })
+			// }
 		}
-
 		return () => {
 			if (timeoutId) window.clearTimeout(timeoutId)
 		}
-	}, [videoTexture, visible, index, videoClicked.videoIndex, introCompleted])
+
+	}, [videoTexture, introCompleted])
+	
+	// useEffect(() => {
+	// 	const vid = videoTexture?.image as HTMLVideoElement | undefined
+	// 	if (!vid) return
+
+
+	// 	let timeoutId: number | undefined
+	// 	const shouldPlay = visible && index === videoClicked.videoIndex
+	// 	console.log('video clicked index', videoClicked.videoIndex)
+	// 	console.log('visible',visible)
+
+	// 	if (Math.floor(indexTracker.current) === index && visible) {
+	// 		if (!introCompleted && !firstPlayDelayedRef.current) {
+	// 			timeoutId = window.setTimeout(() => {
+	// 				vid.play().catch(() => { })
+	// 				firstPlayDelayedRef.current = true
+	// 			}, 600)
+	// 		} else {
+	// 			console.log('playing video')
+	// 			vid.currentTime = 0
+	// 			vid.play().catch(() => { })
+	// 		}
+	// 	} else {
+	// 		// vid.play()
+	// 		// setTimeout(() => {
+	// 		console.log('pausing video')
+	// 			vid.pause()
+	// 			vid.currentTime = 0
+	// 		// },0)
+	// 	}
+
+	// 	return () => {
+	// 		if (timeoutId) window.clearTimeout(timeoutId)
+	// 	}
+	// }, [videoTexture, visible, index, videoClicked.videoIndex, introCompleted])
 
 
 
@@ -153,6 +229,27 @@ export default function VideoTile({index, url}: VideoProps) {
 	useFrame((state, delta) => {
 		if (!textGroupRef.current || !imageMatRef.current || !groupRef.current) return
 
+		// const shouldPlay = visible && index === videoClicked.videoIndex
+
+		// if (shouldPlay) {
+		// 	if (!introCompleted && !firstPlayDelayedRef.current) {
+		// 			videoTexture.image.play().catch(() => { })
+		// 			firstPlayDelayedRef.current = true
+
+		// 	} else {
+		// 		videoTexture.image.play().catch(() => { })
+		// 	}
+		// } else {
+		// 		videoTexture.image.pause()
+		// 		videoTexture.image.currentTime = 0
+		// }
+		// if(!test.current && introCompleted){
+		// 	videoTexture.image.play().catch(() => { })
+		// 	test.current = true
+		// }
+
+
+
 		if (lenis) {
 			easing.damp(imageMatRef.current,'uVelocity', Math.abs(lenis.velocity), 0.25, delta)
 		}
@@ -167,14 +264,14 @@ export default function VideoTile({index, url}: VideoProps) {
 		if(index === 0 ){		
 			if(!introCompleted){
 				imageMatRef.current.uAlpha = 0
-				groupRef.current.position.set(0,0, 4.85)
+				groupRef.current.position.set(0, 0, tileElevation + 0.3 )
 			}
 			else{
 				// console.log('videoIndex', videoClicked.videoIndex, '   --clicked', videoClicked.clicked)
 				if(videoClicked.clicked && videoClicked.videoIndex === index){
 					easing.damp3(
 						groupRef.current.position,
-						[(indexTracker.current * tileWidthFactor), 0, 4.4],
+						[(indexTracker.current * tileWidthFactor), 0, tileElevation ],
 						0.5,
 						delta,
 						1000,
@@ -193,7 +290,7 @@ export default function VideoTile({index, url}: VideoProps) {
 					)				
 				}
 
-				if (Math.floor(indexTracker.current) === index) {
+				if (Math.floor(indexTracker.current + 0.1) === index) {
 					easing.damp(imageMatRef.current, 'uAlpha',
 						1.5,
 						0.5,
@@ -217,8 +314,8 @@ export default function VideoTile({index, url}: VideoProps) {
 			if (videoClicked.clicked && videoClicked.videoIndex === index) {
 				easing.damp3(
 					groupRef.current.position,
-					// [0 - ((index )* tileWidthFactor) , 0, 4.4],
-					[(-index + indexTracker.current) * tileWidthFactor, 0, 4.4],
+					// [0 - ((index )* tileWidthFactor) , 0, tileElevation],
+					[(-index + indexTracker.current) * tileWidthFactor, 0, tileElevation ],
 					0.5,
 					delta,
 					1000,
@@ -241,8 +338,8 @@ export default function VideoTile({index, url}: VideoProps) {
 				// }
 			}
 			// console.log('indexTracker:', indexTracker.current % 1, )
-			const limitArea = indexTracker.current % 1
-			if(Math.floor(indexTracker.current) === index && limitArea < 0.2 ){
+			const limitArea = (indexTracker.current + 0.1) % 1
+			if(Math.floor(indexTracker.current + 0.1) === index && limitArea < 0.2 ){
 				easing.damp(imageMatRef.current, 'uAlpha', 
 					1.7, 
 					0.5, 
@@ -268,6 +365,7 @@ export default function VideoTile({index, url}: VideoProps) {
 		if(planeRef.current){
 			planeRef.current.scale.lerp(new Vector3(tileWidth / 100, tileHeight / 100, 1), 0.1)	
 		}
+		// console.log('tileWidth:', tileWidth, '  tileHeight:', tileHeight)
 	})
 	
 

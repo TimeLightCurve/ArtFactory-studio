@@ -15,15 +15,24 @@ import BgPlane from './BgPlane'
 
 
 
+// const videosURLs = [
+// 	// 'videos/VID_20250914_235423_960_1.mp4',
+// 	'videos/VID_20250914_235348_493_2.mp4',
+// 	'videos/VID_20250914_235348_493_1.mp4',
+// 	'videos/VID_20250914_235344_085_1.mp4',
+// 	'videos/VID_20250914_235344_085_2.mp4',
+// 	'videos/VID_20250914_235344_085_3.mp4',
+// 	// 'videos/VID_20250914_235346_816_1.mp4',
+// 	// 'videos/VID_20250914_235346_816_2.mp4',
+// ]
+
+
 const videosURLs = [
-	// 'videos/VID_20250914_235423_960_1.mp4',
-	'videos/VID_20250914_235348_493_2.mp4',
-	'videos/VID_20250914_235348_493_1.mp4',
-	'videos/VID_20250914_235344_085_1.mp4',
-	'videos/VID_20250914_235344_085_2.mp4',
-	'videos/VID_20250914_235344_085_3.mp4',
-	// 'videos/VID_20250914_235346_816_1.mp4',
-	// 'videos/VID_20250914_235346_816_2.mp4',
+	 'videos/video1.mp4',
+	 'videos/video2.mp4',
+	 'videos/video3.mp4',
+	 'videos/video4.mp4',
+	 'videos/video5.mp4',
 ]
 
 
@@ -120,13 +129,12 @@ export default function Experience() {
 				if( Math.abs(lenis.velocity ) < 20 ){
 					
 					const sectionWidth = (lenis.dimensions.scrollHeight - lenis.dimensions.height )/ 4
-					// console.log('scrollProgress:', scrollProgressRef.current)
-
+					
 					if (scrollProgressRef.current > 0.25 && scrollProgressRef.current < 0.45) {
-						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current) + 1 ) + 10, { duration: 1.0 , lock: true})
+						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current) + 1 ) , { duration: 1.0 , lock: true})
 					} 
 					if (scrollProgressRef.current > 0.6  && scrollProgressRef.current < 0.65) {				
-						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current)) + 10, { duration: 1.2, lock: true})			
+						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current)) , { duration: 1.2, lock: true})			
 					}
 				}
 			} 

@@ -22,6 +22,10 @@ export default function Home() {
     return () => cancelFrame(update)
   }, [])
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+      },[])
+
   return (
     <>
      <ReactLenis root options={{ autoRaf: false }} ref={lenisRef} />
