@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 
 
 const titles = [
-	"ART   FAC TO  RY",
+	"STUDIO",
 	"SHOWCASE",
 	"ARTISTS",
 	"SERVICES",
@@ -72,7 +72,7 @@ export default function SectionTitle() {
 				{introCompleted && animationStart && !videoClicked.clicked && (
 					<motion.div
 						key={heroTitle} // Force unmount/mount on title change for exit/enter to run
-						className="flex w-full h-full justify-start items-center flex-wrap gap-10"
+						className="flex w-full h-full justify-start items-center flex-wrap gap-11"
 						variants={containerVariants}
 						initial="hidden"
 						animate="show"
@@ -82,7 +82,7 @@ export default function SectionTitle() {
 							<>
 							<motion.div
 								key={`${heroTitle}-${index}`}
-								className="flex w-fit h-fit justify-start items-center font-bold text-4xl leading-10 lg:text-[8rem] xl:text-[10rem] 2xl:text-[12rem] lg:leading-[5rem] xl:leading-[7rem] 2xl:leading-[9rem] font-chakra text-slate-100/40 overflow-hidden"
+								className="flex w-fit h-fit justify-start items-center font-bold text-4xl leading-10 lg:text-[8rem] xl:text-[10rem] 2xl:text-[12rem] lg:leading-[5rem] xl:leading-[7rem] 2xl:leading-[10rem] font-chakra text-slate-100/40 overflow-hidden"
 								// variants={charVariants}
 							>
 								<motion.span
