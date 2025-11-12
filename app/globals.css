@@ -1,32 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+  /* background-color: transparent; */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
+    --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
 }
 
+html {
+  /* background-color: transparent; */
+  /* overflow: hidden;
+  height: 100lvh; */
+}
+
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
@@ -35,12 +36,13 @@ body {
   }
 }
 
-
 .cls-1 {
   fill: rgba(255, 255, 255, 0.8);
 }
 
-.cls-2, .cls-3, .cls-4 {
+.cls-2,
+.cls-3,
+.cls-4 {
   fill: none;
 }
 
@@ -48,9 +50,10 @@ body {
   stroke: rgba(255, 255, 255, 0.8);
 }
 
-.cls-3, .cls-4 {
-  strokeMiterlimit: 10;
-  strokeWidth: 4px;
+.cls-3,
+.cls-4 {
+  strokemiterlimit: 10;
+  strokewidth: 4px;
 }
 
 .cls-4 {
@@ -58,72 +61,68 @@ body {
 }
 
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
-
-
-
 .chakra-petch-light {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 300;
   font-style: normal;
 }
 
 .chakra-petch-regular {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
 .chakra-petch-medium {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 500;
   font-style: normal;
 }
 
 .chakra-petch-semibold {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 600;
   font-style: normal;
 }
 
 .chakra-petch-bold {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 700;
   font-style: normal;
 }
 
 .chakra-petch-light-italic {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 300;
   font-style: italic;
 }
 
 .chakra-petch-regular-italic {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 400;
   font-style: italic;
 }
 
 .chakra-petch-medium-italic {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 500;
   font-style: italic;
 }
 
 .chakra-petch-semibold-italic {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 600;
   font-style: italic;
 }
 
 .chakra-petch-bold-italic {
-  font-family: "Chakra Petch", sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 700;
   font-style: italic;
 }
-
 
 /* .gradient_text {
   background: transparent;
@@ -135,3 +134,77 @@ body {
   backdrop-filter: invert(100%);
   filter: invert(100%);
 } */
+
+.mask-radial-core {
+  /* backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px); */
+  mask-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 0, 0, 1) 0%,
+    rgba(255, 0, 0, 0.7) 20%,
+    rgba(255, 0, 0, 0.2) 45%,
+    rgba(0, 0, 0, 0) 65%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 0, 0, 1) 0%,
+    rgba(255, 0, 0, 0.7) 20%,
+    rgba(255, 0, 0, 0.2) 45%,
+    rgba(0, 0, 0, 0) 65%
+  );
+  will-change: backdrop-filter, mask-image, -webkit-mask-image;
+  /* 
+  background: radial-gradient(
+    circle at 50% 50%, 
+    rgba(255, 0, 0, 1) 0%, 
+    rgba(255, 0, 0, 0.7) 20%, 
+    rgba(255, 0, 0, 0.2) 45%, 
+    rgba(0, 0, 0, 0) 65%
+    ); */
+}
+
+.mask-wheel {
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.05) 25%,
+    rgba(0, 0, 0, 0.6) 42%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 0.6) 58%,
+    rgba(0, 0, 0, 0.02) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.05) 25%,
+    rgba(0, 0, 0, 0.6) 42%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 0.6) 58%,
+    rgba(0, 0, 0, 0.02) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+
+  /* background: linear-gradient(
+    to bottom, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.7) 10%, 
+    rgba(255, 255, 255, 1) 50%, 
+    rgba(255, 255, 255, 0.7) 80%, 
+    rgba(255, 255, 255, 0) 100%
+    ); */
+}
+
+
+
+
+
+
+.menu__text text {
+	transform-origin: 50% 50%;
+	transform-box: view-box;
+}
+
+.menu__text text:nth-child(2) { 
+	opacity: 0;
+}

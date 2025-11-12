@@ -59,20 +59,20 @@ export default function SectionTitle() {
 	} as const
 
 	const charVariants = {
-		hidden: { x: scrollDirection === 1 ? 200 : -200},
+		hidden: { x: scrollDirection === 1 ? 150 : -150},
 		show: { x: 0, transition: { type: 'spring', bounce: 0.1, duration: 0.6 } },
-		hide: { x: scrollDirection === 1 ? -200 : 200, transition: { duration: 0.6 } },
+		hide: { x: scrollDirection === 1 ? -150 : 150, transition: { duration: 0.6 } },
 	} as const
 
 
 
 	return (
-		<div className="flex flex-row w-[54%] aspect-video h-[54%] gap-16 flex-wrap pl-10 shrink-0">
+		<div className="flex flex-row w-[54%] aspect-video h-[54%] gap-16 flex-wrap pl-16 shrink-0 text-4xl leading-10 lg:text-[8rem] xl:text-[10rem] 2xl:text-[4rem] lg:leading-[5rem] xl:leading-[7rem] 2xl:leading-[4rem]">
 			<AnimatePresence mode="wait" initial={false}>
 				{introCompleted && animationStart && !videoClicked.clicked && (
 					<motion.div
 						key={heroTitle} // Force unmount/mount on title change for exit/enter to run
-						className="flex w-full h-full justify-start items-center flex-wrap gap-11"
+						className="flex w-full h-full justify-start items-center flex-wrap gap-12  font-chakra font-bold text-slate-100/40 "
 						variants={containerVariants}
 						initial="hidden"
 						animate="show"
@@ -82,18 +82,19 @@ export default function SectionTitle() {
 							<>
 							<motion.div
 								key={`${heroTitle}-${index}`}
-								className="flex w-fit h-fit justify-start items-center font-bold text-4xl leading-10 lg:text-[8rem] xl:text-[10rem] 2xl:text-[12rem] lg:leading-[5rem] xl:leading-[7rem] 2xl:leading-[10rem] font-chakra text-slate-100/40 overflow-hidden"
+								className="flex w-fit h-fit justify-center items-center  overflow-hidden "
 								// variants={charVariants}
 							>
 								<motion.span
 									key={index}
 									variants={charVariants}
+									className=''
 								>
 									{ch}
 								</motion.span>
 							</motion.div>
 							{	Math.ceil(heroTitle.length / 2) === index + 1 && (
-									<div key={`${index+'space'}`} className=" flex w-[60%] h-16 " />
+									<div key={`${index+'space'}`} className=" flex w-[75%] h-16 " />
 								)
 							}
 							</>

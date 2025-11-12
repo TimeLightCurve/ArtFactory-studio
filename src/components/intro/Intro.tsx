@@ -4,23 +4,21 @@ import IntroText from "@/src/assets/svg/logo/IntroText"
 import LogoIcon from "@/src/assets/svg/logo/LogoIcon"
 import LogoText from "@/src/assets/svg/logo/LogoText"
 import { useIntroStore } from "@/src/lib/store/useIntroStore"
-import {motion} from "motion/react"
+import {AnimatePresence, motion} from "motion/react"
 import { useState } from "react"
 
 export default function Intro() {
 	const [textComplete, setTextComplete] = useState(false);
 	const [logoAnimationDone, setLogoAnimationDone] = useState(false);
 	// const setVisible = useIntroStore((state) => state.setVisible)
+	const videoClicked = useIntroStore((state) => state.videoClicked)
 
 
 	return (
-		<div className="absolute flex w-screen h-screen top-0 left-0 pointer-events-none ">
-
-			
-
+		<div className="absolute flex w-screen h-screen top-0 left-0 pointer-events-none z-50 ">
 			{/* -------- logo icon -------------*/}
 			<div className=" z-40 flex fixed w-screen h-screen justify-center items-center gap-8">
-				{textComplete &&
+				{textComplete && 
 					<motion.div 
 						initial={{ 
 							opacity: 0, 
@@ -49,7 +47,19 @@ export default function Intro() {
 						}}
 						className="relative flex flex-col w-[20%] aspect-square h-auto shrink-0"
 					>
-						<LogoIcon />
+						<AnimatePresence>
+							{!videoClicked.clicked &&
+								<motion.div
+									initial={{opacity: 0}}
+									animate={{opacity: 1}}
+									exit={{opacity: 0}}
+									transition={{duration: 0.5, ease: "easeInOut"}}
+								>
+
+									<LogoIcon />
+								</motion.div>
+							}
+						</AnimatePresence>
 					</motion.div>
 				}
 			</div>

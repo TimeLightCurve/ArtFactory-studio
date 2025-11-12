@@ -36,7 +36,7 @@ void main() {
 	velocityEffect = smoothstep(0.0,1.0,velocityEffect);
 
 	vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
-	modelPosition.z += (1.0 - smoothstep(0.0,1.0,abs(modelPosition.x * 0.07))) * .7 * velocityEffect;
+	modelPosition.z += (1.0 - smoothstep(0.0,1.0,abs(modelPosition.x * 0.07))) * .9 * velocityEffect;
 
 	gl_Position = projectionMatrix * viewMatrix * modelPosition; 
 

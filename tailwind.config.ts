@@ -16,6 +16,7 @@ const config: Config = {
       fontFamily: {
         manrope: ['var(--font-manrope)', 'sans-serif'],
         chakra: ['var(--font-chakra)', 'sans-serif'],
+        elgoc: ['var(--font-elgoc)', 'sans-serif'],
       },
     },
   },

@@ -18,6 +18,12 @@
       // Add wall-like roughness
       float wallRoughness = sin(pos.x * 100.0) * sin(pos.y * 80.0) * 0.01 * uProgress;
       pos += normal * wallRoughness;
+
+      vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
       
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+      gl_Position = projectionMatrix * viewMatrix * modelPosition;
+
+      // vPosition = modelPosition.xyz;
+
+      
     }

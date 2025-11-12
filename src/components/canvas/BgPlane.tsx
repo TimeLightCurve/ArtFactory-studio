@@ -17,7 +17,7 @@ const BgShaderMaterial = shaderMaterial(
 		uResolution: new THREE.Vector3(1, 1, 1),
 		uMouse: new THREE.Vector2(0, 0),
 		uMouseVel: new THREE.Vector2(0, 0),
-		uMouseStrength: 0.21,
+		uMouseStrength: 0.81,
 		uHovered: 0,
 		uBoost: -5,
 	},
@@ -70,23 +70,25 @@ export default function BgPlane() {
 		if (!customShaderRef.current) return
 		customShaderRef.current.uResolution.set(state.size.width, state.size.height, 1)
 		timeRef.current += delta * 3
-		customShaderRef.current.uTime = (5000 + timeRef.current) % 1000000
+		customShaderRef.current.uTime = state.clock.elapsedTime 
 		// console.log("Time:", customShaderRef.current.uTime)
 		customShaderRef.current.uProgress = 0.9
+
+		// targetMouse.current.set(state.pointer.x * state.size.width / 2 , state.pointer.y * state.size.height /2 )
 
 		smoothedMouse.current.lerp(targetMouse.current, 0.15)
 
 		// Compute velocity (px/sec)
 		const now = performance.now()
-		const dtMs = now - lastFrameTime.current
-		const dt = dtMs / 1000.0
+		// const dtMs = now - lastFrameTime.current
+		// const dt = dtMs / 1000.0
 		lastFrameTime.current = now
 		const vel = smoothedMouse.current.clone().sub(lastMouse.current)
-		lastMouse.current.copy(smoothedMouse.current)
-		if (dt > 0) vel.divideScalar(dt)
+		// lastMouse.current.copy(smoothedMouse.current)
+		// if (dt > 0) vel.divideScalar(dt)
 
 		// Damping velocity to manageable scale
-		vel.multiplyScalar(0.4)
+		// vel.multiplyScalar(0.8)
 
 		customShaderRef.current.uMouse.set(smoothedMouse.current.x, smoothedMouse.current.y)
 		customShaderRef.current.uMouseVel.set(vel.x, vel.y)

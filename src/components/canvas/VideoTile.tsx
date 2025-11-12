@@ -2,7 +2,7 @@ import { ScreenSizer, shaderMaterial, useAspect, useTexture, useVideoTexture } f
 import { extend, Object3DNode, useFrame } from "@react-three/fiber"
 import { types } from "@theatre/core"
 import { editable as e, useCurrentSheet } from "@theatre/r3f"
-import { use, useEffect, useRef } from "react"
+import {useEffect, useRef } from "react"
 import * as THREE from 'three'
 import { Vector3 } from "three"
 // @ts-expect-error
@@ -63,7 +63,7 @@ export default function VideoTile({index, url}: VideoProps) {
 
 	const ribbonSheet = useCurrentSheet()
 
-	const visible = useIntroStore((state) => state.visible)
+	// const visible = useIntroStore((state) => state.visible)
 
 	const introCompleted = useIntroStore((state) => state.introCompleted)
 
@@ -95,50 +95,56 @@ export default function VideoTile({index, url}: VideoProps) {
 		autoplay: false,
 		playsInline: true,
 	})
+
+	videoTexture.wrapS = videoTexture.wrapT = THREE.RepeatWrapping
+	videoTexture.repeat.set(6,1)
+	videoTexture.needsUpdate = true
 	
-	const firstPlayDelayedRef = useRef(false)
+	// const firstPlayDelayedRef = useRef(false)
 	const {width} = useWindowSize()
 	const tileWidth = width ? width : 1920
 	const tileHeight = tileWidth * 9 / 16
+
+	const scale = [tileWidth / 100, tileHeight / 100, 1] as [number, number, number]
+
 
 	const tileElevation = tileWidth > 1440 ? 4.4 : 4.8
 
 	const doOnce = useRef(false)
 	const indexTrackerStore = useRef(0)
+	const limitArea = useRef(0)
+	const currentVideo = useRef(0)
 	
 	useMotionValueEvent(scrollYProgress, "change", (scrollYProgress) => {
 		indexTracker.current = (scrollYProgress * 4)
 
 		const tracker = (scrollYProgress * 4 + 0.0006)
-		const currentVideo = new Number(tracker.toFixed(2)).valueOf()
-
+		currentVideo.current = new Number(tracker.toFixed(2)).valueOf()
+		limitArea.current = (indexTracker.current + 0.1) % 1
 		// console.log(Math.floor(tracker))
 		// console.log('indexTrackerStore:', new Number(tracker.toFixed(2)).valueOf())
 
-		if (currentVideo === Math.floor(tracker)){
-			console.log('resetting doOnce')
+		if (currentVideo.current === Math.floor(tracker)){
 			doOnce.current = false
 		}
 
-		if(!doOnce.current){
-			if (currentVideo === index) {
-				console.log('testttt')
+		if(!doOnce.current && lenis){
+			if (currentVideo.current === index) {
 				videoTexture.image.play().catch(() => { })
 				indexTrackerStore.current = Math.floor(tracker)
 				doOnce.current = true
 			} else {
-				
-				videoTexture.image.pause()
-				videoTexture.image.currentTime = 0
-				indexTrackerStore.current = Math.floor(tracker)
-				doOnce.current = true
+				if ((lenis.direction === 1 && index + 1 === currentVideo.current) || (lenis.direction === -1 && index - 1 === currentVideo.current)){
+					videoTexture.image.pause()
+					videoTexture.image.currentTime = 0
+					indexTrackerStore.current = Math.floor(tracker)
+					doOnce.current = true
+				}
 			}
 		}
-		
-		
 	})
 
-	useEffect(()=>{
+	useEffect(() => {
 		const vid = videoTexture?.image as HTMLVideoElement | undefined
 		if (!vid) return
 
@@ -147,22 +153,14 @@ export default function VideoTile({index, url}: VideoProps) {
 		// vid.pause()
 		// vid.currentTime = 0
 
-		if(index === 0){
+		if (index === 0) {
 			// if (!introCompleted ) {
-				// vid.pause()
-				// vid.currentTime = 0
-				timeoutId = window.setTimeout(() => {
-					vid.play().catch(() => { })
-					// firstPlayDelayedRef.current = true
-				}, 6500)
-				// vid.pause()
-				// vid.currentTime = 0
-			// } 
-			// else {
-			// 	console.log('playing video')
-			// 	vid.currentTime = 0
-			// 	vid.play().catch(() => { })
-			// }
+			// vid.pause()
+			// vid.currentTime = 0
+			timeoutId = window.setTimeout(() => {
+				vid.play().catch(() => { })
+				// firstPlayDelayedRef.current = true
+			}, 6500)
 		}
 		return () => {
 			if (timeoutId) window.clearTimeout(timeoutId)
@@ -224,7 +222,8 @@ export default function VideoTile({index, url}: VideoProps) {
 	}
 	)
 
-
+	const test = useRef(40)
+	test.current = 40
 
 	useFrame((state, delta) => {
 		if (!textGroupRef.current || !imageMatRef.current || !groupRef.current) return
@@ -248,7 +247,7 @@ export default function VideoTile({index, url}: VideoProps) {
 		// 	test.current = true
 		// }
 
-
+		
 
 		if (lenis) {
 			easing.damp(imageMatRef.current,'uVelocity', Math.abs(lenis.velocity), 0.25, delta)
@@ -260,131 +259,86 @@ export default function VideoTile({index, url}: VideoProps) {
 		imageMatRef.current.uImage1Tex = videoTexture
 			
 		imageMatRef.current.uTime = state.clock.elapsedTime
-
-		if(index === 0 ){		
+	
 			if(!introCompleted){
 				imageMatRef.current.uAlpha = 0
 				groupRef.current.position.set(0, 0, tileElevation + 0.3 )
 			}
 			else{
-				// console.log('videoIndex', videoClicked.videoIndex, '   --clicked', videoClicked.clicked)
-				if(videoClicked.clicked && videoClicked.videoIndex === index){
+
+				if (videoClicked.clicked && videoClicked.videoIndex === index) {
 					easing.damp3(
 						groupRef.current.position,
-						[(indexTracker.current * tileWidthFactor), 0, tileElevation ],
+						// [0 - ((index )* tileWidthFactor) , 0, tileElevation],
+						[(-index + indexTracker.current) * tileWidthFactor, 0, tileElevation],
 						0.5,
 						delta,
 						1000,
 						(t: number) => 1 / (1 + t + 0.48 * t * t + 0.235 * t * t * t),
 					)
-					// easing.damp(imageMatRef.current, 'uAlpha', 0, 0.2, delta)
-
+						
+					easing.damp(test, 'current', 0, 0.6, delta)
+					easing.damp(imageMatRef.current, 'uVelocity',
+						test.current, 
+						0.35, delta)
+				// easing.damp(imageMatRef.current, 'uAlpha', 0, 0.2, delta)
 				} else {
 					easing.damp3(
-						groupRef.current.position, 
-						[0, 0, 0.05], 
-						0.55, 
-						delta, 
-						200, 
+						groupRef.current.position,
+						[0, 0, 0.05],
+						0.55,
+						delta,
+						200,
 						(t: number) => 1 / (1 + t + 0.48 * t * t + 0.235 * t * t * t),
-					)				
+					)
+					// if(videoClicked.videoIndex !== index){
+					// // easing.damp(imageMatRef.current, 'uAlpha', 1.9, 0.1, delta)
+					// } else {
+					// 	easing.damp(imageMatRef.current, 'uAlpha', 1.3, 0.1, delta)
+					// }
 				}
-
-				if (Math.floor(indexTracker.current + 0.1) === index) {
+			
+				// console.log('indexTracker:', indexTracker.current % 1, )
+				
+				if (Math.floor(indexTracker.current + 0.1) === index && limitArea.current < 0.2) {
 					easing.damp(imageMatRef.current, 'uAlpha',
-						1.5,
+						1.0,
 						0.5,
 						delta,
 						200,
 						(t: number) => 1 / (1 + t + 0.48 * t * t + 0.235 * t * t * t),
 					)
 				} else {
-					easing.damp(imageMatRef.current, 'uAlpha',
-						1.95,
-						0.5,
-						delta,
-						200,
-					)
+					setTimeout(() => {
+						easing.damp(imageMatRef.current!, 'uAlpha',
+							1.95,
+							0.5,
+							delta,
+							200,
+						)
+					}, 800)
 				}
 						
 			}
-		}
-		 else {
-			
-			if (videoClicked.clicked && videoClicked.videoIndex === index) {
-				easing.damp3(
-					groupRef.current.position,
-					// [0 - ((index )* tileWidthFactor) , 0, tileElevation],
-					[(-index + indexTracker.current) * tileWidthFactor, 0, tileElevation ],
-					0.5,
-					delta,
-					1000,
-					(t: number) => 1 / (1 + t + 0.48 * t * t + 0.235 * t * t * t),
-				)
-				// easing.damp(imageMatRef.current, 'uAlpha', 0, 0.2, delta)
-			} else {
-				easing.damp3(
-					groupRef.current.position,
-					[0, 0, 0.05],
-					0.55,
-					delta,
-					200,
-					(t: number) => 1 / (1 + t + 0.48 * t * t + 0.235 * t * t * t),
-				)
-				// if(videoClicked.videoIndex !== index){
-				// // easing.damp(imageMatRef.current, 'uAlpha', 1.9, 0.1, delta)
-				// } else {
-				// 	easing.damp(imageMatRef.current, 'uAlpha', 1.3, 0.1, delta)
-				// }
-			}
-			// console.log('indexTracker:', indexTracker.current % 1, )
-			const limitArea = (indexTracker.current + 0.1) % 1
-			if(Math.floor(indexTracker.current + 0.1) === index && limitArea < 0.2 ){
-				easing.damp(imageMatRef.current, 'uAlpha', 
-					1.7, 
-					0.5, 
-					delta, 
-					200,
-					(t: number) => 1 / (1 + t + 0.48 * t * t + 0.235 * t * t * t),
-				)
-			} else {
-				easing.damp(imageMatRef.current, 'uAlpha', 
-					1.95, 
-					0.5, 
-					delta,
-					200,
-				)
-			}
-			
-		}
-
-		// console.log('utime', imageMatRef.current.uTime)
-		// if (selectedImage.current !== currentImage.current && ribbonSheet) {
-		// 	setImageIndex(currentImage.current)
-		// }
-		if(planeRef.current){
-			planeRef.current.scale.lerp(new Vector3(tileWidth / 100, tileHeight / 100, 1), 0.1)	
-		}
-		// console.log('tileWidth:', tileWidth, '  tileHeight:', tileHeight)
 	})
 	
 
 	return (
 		<group ref={groupRef} visible={index === 0 || introCompleted} onClick={()=>{
 			// console.log('clicked video', index)
-			if (introCompleted) {
+			if (introCompleted && currentVideo.current === index) {
 				setVideoClicked({clicked: !videoClicked.clicked , videoIndex:index})
 			}
 		}} >
 			<e.group theatreKey="image group" ref={textGroupRef} >
-				<e.group theatreKey="imageTex" >
+				<e.group theatreKey="imageTex"  >
 					{/* <mesh>
 						<planeGeometry args={[54, 30]} />
 						<meshStandardMaterial map={wallTexture}   />
 					</mesh> */}
 					{/* <mesh scale={[19.2 ,10.8, 0.01]}  > */}
 					{/* <ScreenSizer scale={1}>	 */}
-						<mesh ref={planeRef} >
+						<mesh ref={planeRef} scale={scale} >
 							<planeGeometry args={[1, 1, 192,108]} />
 							{/* <meshBasicMaterial color={'black'} /> */}
 							<videoShaderMaterial key={VideoShaderMaterial.key} ref={imageMatRef} transparent />

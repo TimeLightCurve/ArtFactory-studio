@@ -61,7 +61,7 @@ export default function Scene({ ...props }) {
 								setTimeout(() => {
 
 									setIntroCompleted(true)
-								}, 1000)
+								}, 2000)
 							})
 					} else {
 						// console.log("Pausing sheet")

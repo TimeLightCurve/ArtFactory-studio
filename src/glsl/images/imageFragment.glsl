@@ -10,8 +10,8 @@ varying vec2 vUv;
 varying vec3 vPos;
 varying vec3 vModelPosition;
 
-#include "lygia/generative/psrdnoise.glsl"
-#include "lygia/math/aastep.glsl"
+// #include "lygia/generative/psrdnoise.glsl"
+// #include "lygia/math/aastep.glsl"
 
 
 
@@ -27,8 +27,8 @@ void main() {
 	float time = uTime ;
 
     // vec4 color = vec4(vec3(0.0), 1.0);
-    vec2 pixel = 1.0/uResolution.xy;
-    vec2 st = gl_FragCoord.xy * pixel;
+    // vec2 pixel = 1.0/uResolution.xy;
+    // vec2 st = gl_FragCoord.xy * pixel;
 
 	vec3 imageTexture = texture(uImage1Tex, vUv).rgb ;
 	// // vec3 image2Texture = texture(uImage2Tex, vUv).rgb ;
@@ -37,24 +37,24 @@ void main() {
 	vec4 l1 = vec4(imageTexture , 1.0 );
 
 
-	float nscale = 1.0;
-    vec2 v = nscale * (st) + vec2(vModelPosition.x * 3.0 + 0.2 * time, vModelPosition.y * 3.2 + 0.1 * time);
-    vec2 p = vec2(0.0, 0.0);
-    float alpha = time;
-    vec2 g;
+	// float nscale = 1.0;
+    // vec2 v = nscale * (st) + vec2(vModelPosition.x * 3.0 + 0.2 * time, vModelPosition.y * 3.2 + 0.1 * time);
+    // vec2 p = vec2(0.0, 0.0);
+    // float alpha = time;
+    // vec2 g;
      
-    float n = psrdnoise(v, p, alpha, g);
+    // float n = psrdnoise(v, p, alpha, g);
   
-    vec3 bgcolor = vec3(0.5, 0.5, 0.5);
-    vec3 xcolor = vec3(1.0, 1.0, 1.0);
+    // vec3 bgcolor = vec3(0.5, 0.5, 0.5);
+    // vec3 xcolor = vec3(1.0, 1.0, 1.0);
     // vec3 ycolor = vec3(0.7, 0.7, 0.7);
-    vec3 pattern = mix(bgcolor, xcolor, g.x);
-	pattern.x = map(pattern.x, -2.0, 1.0, 0.0, 1.0);
+    // vec3 pattern = mix(bgcolor, xcolor, g.x);
+	// pattern.x = map(pattern.x, -2.0, 1.0, 0.0, 1.0);
 	// pattern = clamp(pattern, 0.0, 1.0);
 
-	float velocityEffect = map(uVelocity, -20.0, 20.0, 0.0, 1.0);
-	velocityEffect = pow(velocityEffect, 2.0);
-	velocityEffect = smoothstep(0.0,1.0,velocityEffect) * 5.0;
+	// float velocityEffect = map(uVelocity, -20.0, 20.0, 0.0, 1.0);
+	// velocityEffect = pow(velocityEffect, 2.0);
+	// velocityEffect = smoothstep(0.0,1.0,velocityEffect) * 0.0;
 
 
 
@@ -95,8 +95,8 @@ void main() {
 	// velocityEffect = pow(velocityEffect, 2.0);
 	// velocityEffect = smoothstep(0.0,1.0,velocityEffect) * 5.0;
 
-	layer0.a *=  (2.0 + 2.5 * vUv.x * vUv.x) * min( smoothstep(0.0,600.0,( vModelPosition.x -29.0 -velocityEffect* 0.6) * (vModelPosition.x  -29.0 -velocityEffect * 0.3) ),
-	(1.0 - smoothstep(-200.0,600.0,( vModelPosition.x - 8.0 -velocityEffect * 0.2) * (vModelPosition.x  - 8.0 - velocityEffect  * 0.3))));
+	layer0.a *=  0.2 * (16.0 - abs(distance(vModelPosition, vec3(0))))* min( smoothstep(0.0,600.0,( vModelPosition.x -20.0 ) * (vModelPosition.x  -20.0) ),
+	(1.0 - smoothstep(-200.0,600.0,( vModelPosition.x - 8.0 ) * (vModelPosition.x  - 8.0 ))));
     gl_FragColor = layer0;
     // gl_FragColor = vec4(vec3(p2), 1.0);
     // gl_FragColor = vec4(d3,1.0);

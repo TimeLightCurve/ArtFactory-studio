@@ -2,7 +2,6 @@ import Triangle from '@/src/assets/svg/logo/Triangle'
 import { useIntroStore } from '@/src/lib/store/useIntroStore'
 import { CornerBottomLeftIcon, CornerBottomRightIcon, CornerTopLeftIcon, CornerTopRightIcon } from '@radix-ui/react-icons'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
-import { video } from 'motion/react-client'
 import { useState } from 'react'
 
 export default function Tracker() {

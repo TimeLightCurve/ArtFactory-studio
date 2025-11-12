@@ -12,6 +12,8 @@ import { useMotionValueEvent, useScroll } from 'motion/react'
 import { easing } from 'maath'
 import { useLenis } from 'lenis/react'
 import BgPlane from './BgPlane'
+import ImageInstances from './ImageInstances'
+import { OrbitControls } from '@react-three/drei'
 
 
 
@@ -57,7 +59,7 @@ export default function Experience() {
 
 	useMotionValueEvent(scrollYProgress, "change", (scrollYProgress) => {
 		indexTracker.current = scrollYProgress * 4
-		scrollProgressRef.current = (indexTracker.current % 1) 
+		scrollProgressRef.current = (indexTracker.current + 0.05) % 1
 	})
 
 
@@ -126,15 +128,17 @@ export default function Experience() {
 			}
 
 			if (lenis) {
-				if( Math.abs(lenis.velocity ) < 20 ){
+				if( Math.abs(lenis.velocity ) < 200 ){
 					
 					const sectionWidth = (lenis.dimensions.scrollHeight - lenis.dimensions.height )/ 4
+
+					// console.log(scrollProgressRef.current)
 					
-					if (scrollProgressRef.current > 0.25 && scrollProgressRef.current < 0.45) {
-						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current) + 1 ) , { duration: 1.0 , lock: true})
+					if (scrollProgressRef.current > 0.25 && scrollProgressRef.current < 0.55) {
+						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current) + 1 ) , { duration: 1.6 , lock: true})
 					} 
-					if (scrollProgressRef.current > 0.6  && scrollProgressRef.current < 0.65) {				
-						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current)) , { duration: 1.2, lock: true})			
+					if (scrollProgressRef.current > 0.56  && scrollProgressRef.current < 0.85) {				
+						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current)) , { duration: 1.8, lock: true})			
 					}
 				}
 			} 
@@ -156,7 +160,7 @@ export default function Experience() {
 				near={0.001}
 				far={50000}
 			/>
-			<BgPlane />
+			{/* <BgPlane /> */}
 
 			{/* <ImageTile 
 			/> */}
@@ -169,8 +173,7 @@ export default function Experience() {
 				}
 			</group>
 			{/* <VideoTile /> */}
-
-
+			
 			{/* <OrbitControls /> */}
 		</>
 	)
