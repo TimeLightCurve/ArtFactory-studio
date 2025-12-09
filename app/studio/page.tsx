@@ -40,8 +40,8 @@ export default function Studio() {
 	// }, [lenis, titleAnimationDone])
 
 	return (
-		<div className="relative flex w-lvw h-[2200vh] shrink-0 justify-start items-start overflow-x-hidden overflow-y-scroll  z-10">
-			<div className="absolute flex w-full h-full justify-start items-start pt-48 z-10 ">
+		<div className="relative flex w-lvw h-[2200vh] shrink-0 justify-start items-start overflow-x-hidden overflow-y-scroll  z-1">
+			<div className="absolute flex w-full h-full justify-start items-start pt-48 z-1 ">
 				<motion.div
 					className="relative -left-8 flex flex-col w-fit h-fit -rotate-90  "
 				>

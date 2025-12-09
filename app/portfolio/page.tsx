@@ -38,7 +38,7 @@ export default function Test() {
 
 
 	return (
-		<div ref={containerRef} className='relative flex flex-col w-full h-screen gap-10 px-1 pb-4 overflow-y-scroll overflow-x-hidden'>
+		<div ref={containerRef} className='relative flex flex-col w-full h-screen gap-10 px-1 pb-4 overflow-y-scroll overflow-x-hidden z-[60]'>
 			<div className=' flex w-full justify-end '>
 				<div className=' flex flex-col w-fit h-96 justify-end items-end bg-neutral-950 px-2'>		
 					<motion.h1

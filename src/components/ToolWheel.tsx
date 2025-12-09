@@ -231,7 +231,7 @@ export default function ToolWheel() {
 
 	return (
 		<>
-		<div className=" fixed flex top-4 right-4 z-50 ">		
+		<div className=" fixed flex top-4 right-4 z-[999999999999] ">		
 			<motion.div
 				initial={{ y: 0 }}
 				animate={{ y: wheelOpened ? 120 : 0,

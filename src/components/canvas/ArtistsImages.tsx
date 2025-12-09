@@ -10,6 +10,7 @@ import { useEffect, useMemo, useRef } from "react" // Removed useCallback, useSt
 import * as THREE from "three"
 import { ArtistShaderMaterial, IArtistShaderMaterial, ITextShaderMaterial, TextShaderMaterial } from './shaderMaterials'
 import { useStatics } from './statics'
+import { useRouter } from 'next/navigation'
 
 
 extend({ ArtistShaderMaterial, TextShaderMaterial })
@@ -58,6 +59,8 @@ export default function ArtistImages() {
 	const nameListMotionValue = useMotionValue(0)
 	const themeMotionValue = useMotionValue(0)
 	const nameListAnimation = useRef<'none' | 'EXPANDING' | 'HIDING' | 'EXPANDED' | 'HIDDEN'>('none')
+
+	const route = useRouter()
 
 	// 2. Listen for the custom event from the DOM
 	useEffect(() => {
@@ -418,6 +421,7 @@ export default function ArtistImages() {
 	const handleClickImage = (i: number) => {
 		clickedRef.current = !clickedRef.current
 		clickedImageIndex.current = i
+		route.push('/portfolio')
 	}
 
 	return (

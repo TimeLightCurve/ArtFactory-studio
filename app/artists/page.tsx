@@ -4,11 +4,8 @@ import { useWheelStore } from "@/src/lib/store/useWheelStore"
 // import { CornerBottomLeftIcon, CornerBottomRightIcon, CornerTopLeftIcon, CornerTopRightIcon } from "@radix-ui/react-icons"
 // import { useWindowSize } from "@uidotdev/usehooks"
 // import { useLenis } from "lenis/react"
-import { useGalleryStore } from '@/src/lib/store/useGalleryStore'
 import { AnimatePresence, motion } from 'motion/react'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
-import * as THREE from 'three'
+import { useState } from 'react'
 // import { useEffect, useState } from "react"
 
 
@@ -41,11 +38,11 @@ export default function Artists() {
 	// }, [lenis, titleAnimationDone])
 
 	return (
-		<div className="relative flex w-lvw h-[5200vh] shrink-0 justify-start items-start overflow-x-hidden overflow-y-scroll  z-10">
+		<div className="relative flex w-lvw h-[5200vh] shrink-0 justify-start items-start overflow-x-hidden overflow-y-scroll ">
 
-				<AnimatePresence>
-					{expanded &&
-			<div className="fixed flex w-full h-full justify-start items-start pt-48 px-8 z-20  ">
+			<AnimatePresence>
+				{expanded &&
+					<div className="fixed flex w-full h-full justify-start items-start pt-48 px-8 z-1  ">
 
 						<motion.div
 							className="relative flex w-full h-fit "
@@ -143,18 +140,18 @@ export default function Artists() {
 
 						</motion.div>
 					</div>
-					}
-				</AnimatePresence>
+				}
+			</AnimatePresence>
 
 
 			{/* Fixed grabbing handle (camera Z) */}
 			{/* reads/writes cameraZ in zustand store */}
 			{pageAnimationStart &&
-			<>
-				{/* <FixedZoomHandle /> */}
-			</>
+				<>
+					{/* <FixedZoomHandle /> */}
+				</>
 			}
-			
+
 		</div>
 	)
 }
