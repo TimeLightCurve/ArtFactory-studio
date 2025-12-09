@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react"
-import ImageInstances from "./ImageInstances"
+import ImageInstances from "./StudioImages"
 
 export default function FixedCanvasWrapper() {
 	const wrapperRef = useRef<HTMLDivElement>(null)

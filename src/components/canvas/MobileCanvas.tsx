@@ -29,7 +29,7 @@ export default function MobileCanvas() {
 		// 	className=" flex flex-col w-full h-svh shrink-0  "
 		// 	// style={{ height: 900 + 8 }}
 		// >
-			<div className=" flex flex-col w-full h-full shrink-0 z-10">
+			<div className=" flex flex-col w-full h-svh shrink-0 z-20">
 				{/* <div className="  flex flex-col w-full h-32 shrink-0 justify-end items-center z-50 text-white"/> */}
 				<Canvas
 					gl={{
@@ -46,14 +46,16 @@ export default function MobileCanvas() {
 					}}
 					dpr={[1, 1.5]}
 					style={{
-						zIndex: 10,
+						zIndex: 40,
 						position: 'fixed',
-						//   bottom: 0,
+						// bottom: 0,
 						top: 0,
 						width: '100vw',
 						height: '100lvh',
+						// display: 'flex',
 						//   pointerEvents: 'auto',
 					}}
+					
 				>
 					<Suspense fallback={null}>
 						<MobileHome />

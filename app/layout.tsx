@@ -99,6 +99,123 @@ const elgoc = localFont({
   ],
   variable: '--font-elgoc',
 })
+
+
+const joly = localFont({
+  src: [
+    {
+      path: '../public/fonts/joly_display/Joly_Display_Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/joly_display/Joly_Display_Regular_Italic.otf',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: '../public/fonts/joly_display/Joly_Display_Medium_Italic.otf',
+      weight: '500',
+      style: 'italic',
+    },
+    {
+      path: '../public/fonts/joly_display/Joly_Display_Medium.otf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/joly_display/Joly_Display_Bold.otf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/joly_display/Joly_Display_Black_Italic.otf',
+      weight: '900',
+      style: 'italic',
+    },
+    {
+      path: '../public/fonts/joly_display/Joly_Display_Black.otf',
+      weight: '900',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-joly',
+})
+
+const allegria = localFont({
+  src: [
+
+    {
+      path: '../public/fonts/TTRicordiAllegriaLight.ttf',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/TTRicordiAllegriaRegular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+   
+  ],
+  variable: '--font-allegria',
+})
+
+const castoro = localFont({
+  src: [
+
+    {
+      path: '../public/fonts/Castoro_Titling/CastoroTitling-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+
+   
+  ],
+  variable: '--font-castoro',
+})
+const specialElite = localFont({
+  src: [
+
+    {
+      path: '../public/fonts/Special_Elite/SpecialElite-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+
+   
+  ],
+  variable: '--font-especial-elite',
+})
+
+const broadacre = localFont({
+  src: [
+
+    {
+      path: '../public/fonts/broadacre/Broadacre_Thin_0.otf',
+      weight: '200',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/broadacre/Broadacre_Light_0.otf',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/broadacre/Broadacre_Hairline_0.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/broadacre/Broadacre_Hairline_1.otf',
+      weight: '500',
+      style: 'normal',
+    },
+
+
+  ],
+  variable: '--font-broadacre',
+})
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -113,11 +230,16 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
           />
       </head>
-      <body className={`${manrope.variable} ${chakra.variable} ${elgoc.variable}  antialiased relative flex w-lvw h-lvh bg-neutral-950 `}>
-        <LenisWrapper />
-        <MainLayout />
-        
-        {children}
+      <body className={`
+        ${manrope.variable} ${chakra.variable} ${elgoc.variable} 
+        ${allegria.variable} ${joly.variable} ${castoro.variable} 
+        ${specialElite.variable} ${broadacre.variable}
+        antialiased relative flex w-full h-full bg-[#f0eee9]  `}>
+          <LenisWrapper >
+            <MainLayout />
+          
+            {children}
+          </LenisWrapper>
       </body>
     </html>
   );

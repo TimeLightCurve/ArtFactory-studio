@@ -25,7 +25,7 @@ export default function Navbar() {
 		setNavPosition(navPositionRef.current)
 		const tracker = (latest * 4 + 0.0006)
 		currentVideo.current = new Number(tracker.toFixed(2)).valueOf()
-		console.log('currentVideo:', currentVideo.current)
+		// console.log('currentVideo:', currentVideo.current)
 	})
 
 	return (

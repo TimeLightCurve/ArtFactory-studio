@@ -62,7 +62,7 @@ void main() {
 
 
     vec2 baseUv = vUvTransformed;
-    vec2 windowCenter = uUVOffset + 0.5 * uUVRepeat;
+    vec2 windowCenter = uUVOffset + 0.5 * uUVRepeat ;
 
     vec2 finalUv = baseUv;
 
@@ -98,7 +98,7 @@ void main() {
 	
 
 	// layer0.a *=  pow(3.2 - abs(distance(vModelPosition, vec3(0))), 3.0)  ;
-	layer0.a *=  pow( smoothstep(0.0, 1.15 ,(1.8 + uClickedValue * 3.8) - abs(distance(vModelPosition, vec3(0)))), 1.0)  ;
+	layer0.a *=  pow( smoothstep(0.0, 1.15 ,(1.8 + uClickedValue * 105.2) - abs(distance(vModelPosition, vec3(0)))), 1.0)  ;
 	layer0.a *= pow(1.0 - uProgress, 2.0) - abs(vModelPosition.y) * uProgress;
 
     gl_FragColor = layer0; 

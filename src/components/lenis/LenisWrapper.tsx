@@ -2,9 +2,9 @@
 
 import ReactLenis, { LenisRef } from "lenis/react"
 import { cancelFrame, frame } from "motion/react"
-import { useEffect, useRef } from "react"
+import { ReactNode, useEffect, useRef } from "react"
 
-export default function LenisWrapper() {
+export default function LenisWrapper({children}:{children: ReactNode}) {
 
 	const lenisRef = useRef<LenisRef>(null)
 
@@ -20,7 +20,9 @@ export default function LenisWrapper() {
 	}, [])
 
   return (
-	  <ReactLenis root options={{ autoRaf: false }} ref={lenisRef} />
+	  <ReactLenis root options={{  autoRaf: false }} ref={lenisRef} >
+		{children}
+	  </ReactLenis>
 
   )
 }

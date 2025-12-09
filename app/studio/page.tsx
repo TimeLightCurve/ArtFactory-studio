@@ -40,7 +40,7 @@ export default function Studio() {
 	// }, [lenis, titleAnimationDone])
 
 	return (
-		<div className="relative flex w-lvw h-[600vh] shrink-0 justify-start items-start overflow-x-hidden overflow-y-scroll  z-10">
+		<div className="relative flex w-lvw h-[2200vh] shrink-0 justify-start items-start overflow-x-hidden overflow-y-scroll  z-10">
 			<div className="absolute flex w-full h-full justify-start items-start pt-48 z-10 ">
 				<motion.div
 					className="relative -left-8 flex flex-col w-fit h-fit -rotate-90  "
@@ -147,7 +147,7 @@ export default function Studio() {
 			</div> */}
 			{/* Fixed grabbing handle (camera Z) */}
 			{/* reads/writes cameraZ in zustand store */}
-			{pageAnimationStart && 
+			{pageAnimationStart &&
 				<FixedZoomHandle />
 			}
 		</div>
@@ -177,13 +177,17 @@ function FixedZoomHandle() {
 			let x = (ev as PointerEvent).clientX
 			// @ts-ignore
 			if (ev.touches && ev.touches[0]) x = (ev as TouchEvent).touches[0].clientX
-			setCameraZ(toZ(x))
+			const val = toZ(x)
+			setCameraZ(val)
+			window.dispatchEvent(new CustomEvent('camera-zoom-update', { detail: val }))
 		}
 		const move = (ev: PointerEvent | TouchEvent | MouseEvent) => {
 			let x = (ev as PointerEvent).clientX
 			// @ts-ignore
 			if (ev.touches && ev.touches[0]) x = (ev as TouchEvent).touches[0].clientX
-			setCameraZ(toZ(x))
+			const val = toZ(x)
+			setCameraZ(val)
+			window.dispatchEvent(new CustomEvent('camera-zoom-update', { detail: val }))
 		}
 		const up = () => {
 			window.removeEventListener('pointermove', move as any)
@@ -203,16 +207,28 @@ function FixedZoomHandle() {
 	if (!mounted || typeof document === 'undefined') return null
 
 	return createPortal(
-		<div style={{ position: 'fixed', left: '50%', bottom: 24, transform: 'translateX(-50%)', width: 260, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2147483647, pointerEvents: 'auto' }}>
+		<div className=" fixed left-1/2 bottom-6 -translate-x-1/2 w-64 h-9  rounded-lg flex gap-2 items-end justify-center z-[2147483647] pointer-events-auto px-2 py-2 "
+		>
 			<div ref={sliderRef}
-				style={{ position: 'relative', width: '100%', height: 6, background: 'rgba(255,255,255,0.25)', backdropFilter: 'blur(4px)', borderRadius: 999 }}
+				className=" relative flex w-full h-full items-end  "
 				onPointerDown={onDragStart}
 				onTouchStart={(e) => { /* forward to pointer handler */ onDragStart(e as any) }}
 			>
+				{new Array(15).fill(0).map((_, i) => (
+					<div key={i}
+						className={` flex w-full border-r  ${(i - 1) % 4 === 0 ? 'h-full border-white' : 'h-1/2 border-white/40'}`}
+						style={{ left: `${(i / 49) * 100}%` }}
+					/>
+				))}
 				<div ref={knobRef}
-					style={{ position: 'absolute', top: '50%', transform: 'translate(-50%,-50%)', left: `${((cameraZ - zMin) / (zMax - zMin)) * 100}%`, width: 20, height: 20, borderRadius: '50%', background: 'linear-gradient(135deg,#fff,#d2d2d2)', boxShadow: '0 2px 10px rgba(0,0,0,0.45)', border: '1px solid rgba(255,255,255,0.6)', cursor: 'grab' }} />
+					className=" absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-5 rounded-md border border-white bg-neutral-950 cursor-grab "
+					style={{ left: `${((cameraZ - zMin) / (zMax - zMin)) * 100}%` }}
+				/>
 			</div>
-			<div style={{ color: 'white', fontSize: 12, marginLeft: 10, opacity: 0.8, fontFamily: 'monospace' }}>{cameraZ.toFixed(2)} · {cameraZ > (zMin + zMax) / 2 ? '2 cols' : '1 col'}</div>
+			<div className=" text-white text-base leading-3 ml-2 opacity-75 w-16 font-chakra font- ">
+				x {(12 - cameraZ).toFixed(2)}
+				{/* <br/> {cameraZ > (zMin + zMax) / 2 ? '2 cols' : '1 col'} */}
+			</div>
 		</div>,
 		document.body
 	)

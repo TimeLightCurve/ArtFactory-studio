@@ -16,7 +16,7 @@ export default function WheelContainer() {
 	const sectionTitles = [
 		"Studio",
 		"Artists",
-		"Showcase",
+		"test",
 		"Models",
 		"About Us",
 	]
@@ -28,6 +28,7 @@ export default function WheelContainer() {
 
 	const setSectionIndex = useWheelStore((state) => state.setSectionIndex)
 	const setVideoClicked = useWheelStore((state) => state.setVideoClicked)
+	const setVideoTitle = useWheelStore((state) => state.setVideoTitle)
 	const videoClicked = useWheelStore((state) => state.videoClicked)
 	const expanded = useWheelStore((state) => state.expanded)
 
@@ -114,9 +115,10 @@ export default function WheelContainer() {
 	}
 
 	const handleClick = () => {
-		setVideoClicked(true)
-		// router.push(`/${title.toLowerCase()}`)
-		router.push(`/studio`)
+		setVideoClicked(!videoClicked)
+		setVideoTitle(title.toLowerCase())
+		router.push(`/${title.toLowerCase()}`)
+		// router.push(`/studio`)
 	}
 
 	return (
@@ -157,8 +159,8 @@ export default function WheelContainer() {
 						</div> */}
 					</div>
 				</motion.div>
-				<div className=" fixed top-0 left-0 flex flex-col w-full h-full justify-center items-center z-40">
-					<div className="mask-wheel  flex flex-col justify-start items-center bg-transparent w-[130%] h-full shrink-0 z-50 pt-48">
+				<div className=" fixed top-0 left-0 flex flex-col w-full h-svh justify-center items-center z-40">
+					<div className="mask-wheel  flex flex-col justify-start items-center bg-transparent w-[130%] h-auto aspect-square shrink-0 z-50 pt-16">
 						<motion.div
 							onTouchEnd={() => handleTouchEnd()}
 							onTouchMove={(e) => handleDrag(e)}

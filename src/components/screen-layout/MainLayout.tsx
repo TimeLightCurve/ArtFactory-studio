@@ -24,7 +24,7 @@ export default function MainLayout() {
 	const isMobile = width && width <= 768
 
 	return (
-		<main className=" flex w-full h-full  ">
+		<main className="fixed flex w-full h-full  ">
 			{isMobile ?
 				<MobileLayout />
 				:

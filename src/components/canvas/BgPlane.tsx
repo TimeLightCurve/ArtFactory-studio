@@ -1,41 +1,13 @@
 import * as THREE from 'three'
-import { shaderMaterial } from '@react-three/drei'
 import { Object3DNode, useFrame } from '@react-three/fiber'
-// @ts-ignore
-import vertex from '@/src/glsl/bg/bgVertex.glsl'
-// @ts-ignore
-import fragment from '@/src/glsl/bg/bgFragment.glsl'
 import { extend } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
+import { BgShaderMaterial, IBgShaderMaterial } from './shaderMaterials'
 // import { types } from '@theatre/core'
 // import { MathUtils } from 'three'
 
-const BgShaderMaterial = shaderMaterial(
-	{
-		uTime: 0,
-		uProgress: 0,
-		uResolution: new THREE.Vector3(1, 1, 1),
-		uMouse: new THREE.Vector2(0, 0),
-		uMouseVel: new THREE.Vector2(0, 0),
-		uMouseStrength: 0.81,
-		uHovered: 0,
-		uBoost: -5,
-	},
-	vertex,
-	fragment,
-)
-extend({ BgShaderMaterial })
 
-interface IBgShaderMaterial extends THREE.ShaderMaterial {
-	uTime: number
-	uProgress: number,
-	uResolution: THREE.Vector3
-	uMouse: THREE.Vector2
-	uMouseVel: THREE.Vector2
-	uMouseStrength: number
-	uHovered: number
-	uBoost: number
-}
+extend({ BgShaderMaterial })
 
 declare module '@react-three/fiber' {
 	interface ThreeElements {

@@ -1,19 +1,16 @@
 'use client'
 
+import { useIntroStore } from '@/src/lib/store/useIntroStore'
 import { useFrame } from '@react-three/fiber'
-import { editable as e, PerspectiveCamera } from '@theatre/r3f'
+import { PerspectiveCamera } from '@theatre/r3f'
 import { useIsClient, useWindowSize } from '@uidotdev/usehooks'
+import { useLenis } from 'lenis/react'
+import { easing } from 'maath'
+import { useMotionValueEvent, useScroll } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { Vector3 } from 'three'
 import VideoTile from './VideoTile'
-import { useIntroStore } from '@/src/lib/store/useIntroStore'
-import { useMotionValueEvent, useScroll } from 'motion/react'
-import { easing } from 'maath'
-import { useLenis } from 'lenis/react'
-import BgPlane from './BgPlane'
-import ImageInstances from './ImageInstances'
-import { OrbitControls } from '@react-three/drei'
 
 
 
@@ -30,11 +27,11 @@ import { OrbitControls } from '@react-three/drei'
 
 
 const videosURLs = [
-	 'videos/video1.mp4',
-	 'videos/video2.mp4',
-	 'videos/video3.mp4',
-	 'videos/video4.mp4',
-	 'videos/video5.mp4',
+	'videos/video1.mp4',
+	'videos/video2.mp4',
+	'videos/video3.mp4',
+	'videos/video4.mp4',
+	'videos/video5.mp4',
 ]
 
 
@@ -51,7 +48,7 @@ export default function Experience() {
 	const scrollProgressRef = useRef(0)
 	const indexTracker = useRef(0)
 
-	const {width} = useWindowSize()
+	const { width } = useWindowSize()
 
 	const tileWidthFactor = 20.9
 	const windowWidth = width ? width : 1920
@@ -63,7 +60,7 @@ export default function Experience() {
 	})
 
 
-	const {visible} = useIntroStore()
+	const { visible } = useIntroStore()
 
 	const [groupVisible, setGroupVisible] = useState(false)
 	// manage delayed visibility for the group so the visible prop is a boolean
@@ -84,30 +81,30 @@ export default function Experience() {
 
 	useFrame((state, delta) => {
 
-		if(groupRef.current){
+		if (groupRef.current) {
 			easing.damp3(
 				groupRef.current.position,
 				new Vector3(-scrollYProgress.get() * fullWidth, 0, 0),
 				0.5,
-				delta ,
+				delta,
 				300,
 				(t: number) => 1 / (1 + t + 0.48 * t * t + 0.235 * t * t * t),
 			)
 		}
-		if(lenis && cameraRef.current){
+		if (lenis && cameraRef.current) {
 
-			const velocity = THREE.MathUtils.smootherstep(THREE.MathUtils.clamp(Math.abs(lenis.velocity + 0.2),0, 100), 0, 100) * 100
+			const velocity = THREE.MathUtils.smootherstep(THREE.MathUtils.clamp(Math.abs(lenis.velocity + 0.2), 0, 100), 0, 100) * 100
 
-			if(velocity > 55){
+			if (velocity > 55) {
 				easing.damp3(
-					cameraRef.current.position, 
+					cameraRef.current.position,
 					new Vector3(0, 0, 18),
 					0.5,
 					delta,
 					200,
 					(t: number) => 1 / (1 + t + 0.48 * t * t + 0.235 * t * t * t),
 				)
-			} else if(velocity > 30){
+			} else if (velocity > 30) {
 				easing.damp3(
 					cameraRef.current.position,
 					new Vector3(0, 0, 13),
@@ -116,9 +113,9 @@ export default function Experience() {
 					200,
 					(t: number) => 1 / (1 + t + 0.48 * t * t + 0.235 * t * t * t),
 				)
-			} else if(velocity < 20){ 
+			} else if (velocity < 20) {
 				easing.damp3(
-					cameraRef.current.position, 
+					cameraRef.current.position,
 					new Vector3(0, 0, 8),
 					0.5,
 					delta,
@@ -128,20 +125,20 @@ export default function Experience() {
 			}
 
 			if (lenis) {
-				if( Math.abs(lenis.velocity ) < 200 ){
-					
-					const sectionWidth = (lenis.dimensions.scrollHeight - lenis.dimensions.height )/ 4
+				if (Math.abs(lenis.velocity) < 200) {
+
+					const sectionWidth = (lenis.dimensions.scrollHeight - lenis.dimensions.height) / 4
 
 					// console.log(scrollProgressRef.current)
-					
+
 					if (scrollProgressRef.current > 0.25 && scrollProgressRef.current < 0.55) {
-						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current) + 1 ) , { duration: 1.6 , lock: true})
-					} 
-					if (scrollProgressRef.current > 0.56  && scrollProgressRef.current < 0.85) {				
-						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current)) , { duration: 1.8, lock: true})			
+						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current) + 1), { duration: 1.6, lock: true })
+					}
+					if (scrollProgressRef.current > 0.56 && scrollProgressRef.current < 0.85) {
+						lenis.scrollTo(sectionWidth * (Math.floor(indexTracker.current)), { duration: 1.8, lock: true })
 					}
 				}
-			} 
+			}
 		}
 	})
 
@@ -173,7 +170,7 @@ export default function Experience() {
 				}
 			</group>
 			{/* <VideoTile /> */}
-			
+
 			{/* <OrbitControls /> */}
 		</>
 	)

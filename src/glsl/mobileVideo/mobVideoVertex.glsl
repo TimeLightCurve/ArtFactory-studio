@@ -46,7 +46,7 @@ void main() {
 	// velocityEffect = smoothstep(0.0,1.0,velocityEffect);
 
 	vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
-	// modelPosition.y += 0.2 * uExpandedValue;
+	// modelPosition.y -= 1.8 ;
 
 	// modelPosition.y += 2.28 * ( 1.0 - pow(uClickedValue, 0.5));
 	// modelPosition.z += (1.0 - smoothstep(0.0,1.0,abs(modelPosition.x * 0.07))) * .9 * velocityEffect;
