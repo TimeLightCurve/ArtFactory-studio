@@ -8,7 +8,7 @@ import * as THREE from 'three'
 // import { easing } from 'maath'
 // import BgPlane from './BgPlane'
 import { useWheelStore } from '@/src/lib/store/useWheelStore'
-import { PerspectiveCamera } from '@react-three/drei'
+import {  PerspectiveCamera } from '@react-three/drei'
 import MobileVideoTile from './MobileVideoTile'
 import StudioImages from './StudioImages'
 import ArtistImages from './ArtistsImages'
@@ -40,6 +40,7 @@ export default function MobileHome() {
 				far={50000}
 			/>
 			<MobileBgPlane />
+
 			<group
 				// visible={groupVisible}
 				ref={groupRef}

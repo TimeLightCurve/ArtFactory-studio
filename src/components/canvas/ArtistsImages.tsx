@@ -1,6 +1,6 @@
 import { useGalleryStore } from '@/src/lib/store/useGalleryStore'
 import { useWheelStore } from '@/src/lib/store/useWheelStore'
-import { Text } from "@react-three/drei" // Removed Html
+import { ContactShadows, Text } from "@react-three/drei" // Removed Html
 import { extend, Object3DNode, useFrame, useThree } from "@react-three/fiber"
 import { useLenis } from "lenis/react"
 import { easing } from 'maath'
@@ -45,6 +45,7 @@ export default function ArtistImages() {
 	const lenis = useLenis()
 	const { camera } = useThree()
 	const pageAnimationStart = useWheelStore((state) => state.pageAnimationStart)
+	const darkMode = useGalleryStore((state) => state.darkMode)
 
 	// 1. Internal Ref for the animation loop
 	// Initialize with current store value non-reactively
@@ -53,11 +54,12 @@ export default function ArtistImages() {
 	const sharedDirection = useMemo(() => new THREE.Uniform(1), [])
 	// NEW: Shared uniform for name list animation to reduce draw calls/updates
 	const sharedNameListProgress = useMemo(() => new THREE.Uniform(0), [])
-	const sharedColorTransition = useMemo(() => new THREE.Uniform(0), [])
+	const sharedColorTransition = useMemo(() => new THREE.Uniform(1), [])
+	const sharedThemeColorTransition = useMemo(() => new THREE.Uniform(1), [])
 
 	const nameListShowRef = useRef(false)
 	const nameListMotionValue = useMotionValue(0)
-	const themeMotionValue = useMotionValue(0)
+	const themeMotionValue = useMotionValue(1)
 	const nameListAnimation = useRef<'none' | 'EXPANDING' | 'HIDING' | 'EXPANDED' | 'HIDDEN'>('none')
 
 	const route = useRouter()
@@ -67,18 +69,14 @@ export default function ArtistImages() {
 		const handleZoomUpdate = (e: CustomEvent) => {
 			// THREE.MathUtils.mapLinear(e.detail, 4, 8, 4, 9)
 			cameraZRef.current = e.detail
-			// easing.damp(
-			// 	cameraZRef,
-			// 	 'current',
-			// 	e.detail,
-			// 	0.5,
-			// 	0.016
-			// )
+			// cameraZRef.current = THREE.MathUtils.lerp(cameraZRef.current, e.detail, 0.25)
+			// easing.damp(cameraZRef, 'current', e.detail, 0.25, 0.016)
 		}
 
 		const handleNameToggle = (e: CustomEvent) => {
 			nameListShowRef.current = e.detail
 			if (nameListShowRef.current) {
+				
 				animate(nameListMotionValue, 1, {
 					bounce: 0.0,
 					type: 'spring',
@@ -92,6 +90,7 @@ export default function ArtistImages() {
 					}
 				})
 			} else {
+				
 				animate(nameListMotionValue, 0, {
 					bounce: 0.0,
 					type: 'spring',
@@ -114,22 +113,22 @@ export default function ArtistImages() {
 				animate(themeMotionValue, 1, {
 					bounce: 0.0,
 					type: 'spring',
-					visualDuration: 3.5,
+					duration: 2.5,
 					restDelta: 0.01,
 					onUpdate: (v) => {
 						// if (customShaderRef.current) customShaderRef.current.uColorTransition = v
-						sharedColorTransition.value = v
+						sharedThemeColorTransition.value = v
 					},
 				})
 			} else {
 				animate(themeMotionValue, 0, {
 					bounce: 0.0,
 					type: 'spring',
-					visualDuration: 3.5,
+					duration: 3.5,
 					restDelta: 0.01,
 					onUpdate: (v) => {
 						// if (customShaderRef.current) customShaderRef.current.uColorTransition = v
-						sharedColorTransition.value = v
+						sharedThemeColorTransition.value = v
 
 					},
 				})
@@ -145,7 +144,8 @@ export default function ArtistImages() {
 			window.removeEventListener('toggle-names-update', handleNameToggle as any)
 			window.removeEventListener('toggle-darkmode-update', handleThemeToggle as any)
 		}
-	}, [])
+	}, [nameListMotionValue, sharedThemeColorTransition, themeMotionValue])
+
 
 	const meshRefs = useRef<THREE.Mesh[]>([])
 	const textRefs = useRef<THREE.Mesh[]>([])
@@ -184,7 +184,7 @@ export default function ArtistImages() {
 		zValueRef.current = THREE.MathUtils.damp(
 			zValueRef.current,
 			THREE.MathUtils.clamp(cameraZRef.current, zMin, zMax),
-			3.9,
+			1.2,
 			dt,
 		)
 
@@ -358,7 +358,7 @@ export default function ArtistImages() {
 				const distX = nameListAnimation.current === 'HIDDEN' ? Math.abs(mesh.position.y - camera.position.y) : Math.abs(mesh.position.x - camera.position.x)
 				const isExpanded = triggered.current[i]
 
-				if (!isExpanded && distX < WORLD_TRIGGER_TOLERANCE + 3.5) {
+				if (!isExpanded && distX < WORLD_TRIGGER_TOLERANCE + 6.5) {
 					// Expand
 					triggered.current[i] = true
 					startTimes.current[i] = tGlobal
@@ -373,7 +373,7 @@ export default function ArtistImages() {
 					textMat.uniforms.uStartTime.value = tGlobal
 					textMat.uniforms.uDuration.value = textDuration
 				}
-				else if (isExpanded && distX > WORLD_TRIGGER_TOLERANCE + 5.5) {
+				else if (isExpanded && distX > WORLD_TRIGGER_TOLERANCE + 6.5) {
 					// Contract (with hysteresis of 1.5 units to prevent flickering)
 					triggered.current[i] = false
 					startTimes.current[i] = tGlobal
@@ -469,6 +469,7 @@ export default function ArtistImages() {
 							<group key={i} onClick={() => handleClickImage(i)} >
 								<mesh
 									ref={(el) => { if (el) meshRefs.current[i] = el }}
+									castShadow
 								// frustumCulled={false}
 								>
 									<planeGeometry args={[widthHorizontal, heightHorizontal, 1, 1]} />
@@ -495,6 +496,7 @@ export default function ArtistImages() {
 											m.uniforms.uDirection = sharedDirection
 											// NEW: Pass the shared uniform reference
 											m.uniforms.uNameOnly = sharedNameListProgress
+											m.uniforms.uColorTransition = sharedThemeColorTransition
 										}}
 										transparent
 									/>
@@ -541,7 +543,7 @@ export default function ArtistImages() {
 												m.uniforms.uDirection = sharedDirection
 												// NEW: Pass the shared uniform reference
 												m.uniforms.uNameOnly = sharedNameListProgress
-												m.uniforms.uColorTransition = sharedColorTransition
+												m.uniforms.uColorTransition = sharedThemeColorTransition
 											}}
 											transparent
 										/>

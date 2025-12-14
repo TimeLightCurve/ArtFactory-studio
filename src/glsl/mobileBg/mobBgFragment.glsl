@@ -127,11 +127,11 @@ void main(){
     vec3 normal = normalize(vNormal);
 
     vec3 depthColorBlack = vec3(0.02, 0.02, 0.02);
-    vec3 depthColorWhite = vec3(0.5);
+    vec3 depthColorWhite = vec3(0.6);
     
 
     vec3 surfaceColorBlack = vec3(0.05, 0.05, 0.05);
-    vec3 surfaceColorWhite = vec3(0.9);
+    vec3 surfaceColorWhite = vec3( 0.94, 0.93, 0.91 );
 
 	vec2 p = (gl_FragCoord.xy/uResolution.y) * 2.0 - 1.0;
 
@@ -142,7 +142,7 @@ void main(){
 
     float mixStrength = (vElevation + 0.925) * 1.0;
     mixStrength = smoothstep(0.0, 1.0, mixStrength);
-    float pattern2 = pow(mixStrength, 0.5);
+    float pattern2 = pow(mixStrength, 1.0) * (0.0 - vPosition.y / 12.0) * ( vPosition.x / 5.0) ;
 
     	float w = 0.5;
 	float p1 = smoothstep(0.0, 1.0, uColorTransition * uColorTransition);
@@ -195,7 +195,7 @@ void main(){
 
 
 
-    // light = clamp(light, 0.0, 1.0);
+    light = clamp(light, 0.0, 1.0);
 
     
     color *= light;

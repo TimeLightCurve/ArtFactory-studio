@@ -9,6 +9,7 @@ uniform float uStartTime;
 uniform float uDuration;
 uniform float uTriggered;
 uniform float uNameOnly;
+uniform float uColorTransition;
 
 // Corner controls (UV space units, 0..1)
 uniform float uCornerLen;    // e.g. 0.12
@@ -96,8 +97,10 @@ void main() {
   c += cornerMask(uvCor, lo, hi, false, false, L, T, F);
   c = clamp(c, 0.0, 1.0) * uCornerAlpha;
 
+  vec4 borderColor = mix(vec4(1.0), vec4(0.0, 0.0, 0.0, 1.0), uColorTransition);
+
   img.a = mix(1.0, 0.0, 1.0 - rectAA(uv, vec2(0.02), vec2(0.98), 0.0)) * ( 1.0 - pow(uNameOnly, 4.0));
-  vec4 color = mix(img, vec4(vec3(0.0), 1.0), c);
+  vec4 color = mix(img, borderColor, c);
   gl_FragColor = color;
   
   

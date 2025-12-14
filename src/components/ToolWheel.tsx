@@ -14,12 +14,14 @@ export default function ToolWheel() {
 	const wheelOpened = useGalleryStore(s => s.wheelOpened)
 	const setWheelOpened = useGalleryStore(s => s.setWheelOpened)
 	const titleAnimationDone = useWheelStore(s => s.titleAnimationDone)
+	const darkMode = useGalleryStore(s => s.darkMode)
+	const setDarkMode = useGalleryStore(s => s.setDarkMode)
+	const setNameListToggled = useGalleryStore(s => s.setNameListToggled)
 
 	const numLines = 24
 	const rectWidth = 240
 	const radius = 90
 
-	const [darkMode, setDarkMode] = useState(true)
 	const [draggingTimeline, setDraggingTimeline] = useState(false)
 	const [mounted, setMounted] = useState(false)
 	useEffect(() => setMounted(true), [])
@@ -70,11 +72,12 @@ export default function ToolWheel() {
 	const handleNameClick = () => {
 		const newVal = !nameList
 		setNameList(newVal)
+		setNameListToggled(newVal)
 		window.dispatchEvent(new CustomEvent('toggle-names-update', { detail: newVal }))
 	}
 
 	const handleDarkModeClick = () => {
-		setDarkMode(prev => !prev)
+		setDarkMode(!darkMode)
 		window.dispatchEvent(new CustomEvent('toggle-darkmode-update', { detail: !darkMode }))
 	}
 	const onDragStart = useCallback((e: React.PointerEvent) => {
@@ -176,10 +179,7 @@ export default function ToolWheel() {
 					setDraggingTimeline(false)
 				},
 				// lock: true,
-
-			 } )
-			
-			
+			 } )		
 		}
 		const up = () => {
 			// setDraggingTimeline(false)
@@ -200,29 +200,16 @@ export default function ToolWheel() {
 
 	const sortButtonClick = useCallback((button: string) => {
 
-		const move = () => {
-			let newZ = 4
-			if(button === 'poster') {
-				newZ = 8
-			} else if(button === 'footer') {
-				newZ = 4
-			}
-			newZ = Math.max(zMin, Math.min(zMax, newZ))
+		let newZ = 4
+		if (button === 'poster') {
+			newZ = 8
+		} else if (button === 'footer') {
+			newZ = 4
+		}
+		newZ = Math.max(zMin, Math.min(zMax, newZ))
 
-			window.dispatchEvent(new CustomEvent('camera-zoom-update', { detail: newZ }))
-			setCameraZ(newZ)
-		}
-		const up = () => {
-			// setIsDragging(false)
-			window.removeEventListener('pointermove', move as any)
-			window.removeEventListener('pointerup', up)
-			window.removeEventListener('touchmove', move as any)
-			window.removeEventListener('touchend', up)
-		}
-		window.addEventListener('pointermove', move as any, { passive: true })
-		window.addEventListener('pointerup', up)
-		window.addEventListener('touchmove', move as any, { passive: true })
-		window.addEventListener('touchend', up)
+		window.dispatchEvent(new CustomEvent('camera-zoom-update', { detail: newZ }))
+		setCameraZ(newZ)
 
 	}, [setCameraZ])
 
@@ -231,7 +218,7 @@ export default function ToolWheel() {
 
 	return (
 		<>
-		<div className=" fixed flex top-4 right-4 z-[999999999999] ">		
+		<div className=" fixed flex top-2 right-4 z-[999999999999] ">		
 			<motion.div
 				initial={{ y: 0 }}
 				animate={{ y: wheelOpened ? 120 : 0,
@@ -247,7 +234,7 @@ export default function ToolWheel() {
 						handleNameClick()
 					}}
 					animate={{ 
-						color: darkMode ? 'rgb(2, 6, 23 , 0.7)' : 'rgb(241, 245, 249 , 1)' 
+						color: darkMode && !nameList ? 'rgb(2, 6, 23 , 0.7)' : 'rgb(241, 245, 249 , 1)' 
 					}}
 					transition={{ type: 'spring', visualDuration: 0.5, bounce: 0, delay: 0.2 }}
 					className= {'flex  text-xl w-9 h-9 justify-center items-center font-manrope font-semibold text-left bg-slate-950/0 rounded-lg py-2 px-2 z-50 ' }
@@ -260,14 +247,14 @@ export default function ToolWheel() {
 						sortButtonClick('poster')
 					}}
 				>
-						<Poster className={`${!darkMode ? 'fill-slate-100/70' : 'fill-slate-950/70'}  transition-all duration-300 delay-300`}/>
+						<Poster className={`${darkMode && !nameList ? 'fill-slate-950/70' : 'fill-slate-100/70'}  transition-all duration-300 delay-300`}/>
 				</div>
 
 				<div 
 					onPointerDown={() => sortButtonClick('footer')}
 					className=" flex w-9 h-9 bg-slate-950/0 rounded-lg "
 				>
-						<Footer className={`${!darkMode ? 'fill-slate-100/70' : 'fill-slate-950/70'} transition-all duration-300 delay-300`} />
+						<Footer className={`${darkMode && !nameList ? 'fill-slate-950/70' : 'fill-slate-100/70'  } transition-all duration-300 delay-300`} />
 				</div>
 
 				<div

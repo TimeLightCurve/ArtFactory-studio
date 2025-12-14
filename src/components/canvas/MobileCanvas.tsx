@@ -31,6 +31,7 @@ export default function MobileCanvas() {
 		<div className=" flex flex-col w-full h-svh shrink-0 z-0">
 			{/* <div className="  flex flex-col w-full h-32 shrink-0 justify-end items-center z-50 text-white"/> */}
 			<Canvas
+				shadows
 				gl={{
 					antialias: false,
 					preserveDrawingBuffer: false,

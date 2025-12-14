@@ -5,38 +5,38 @@ import * as THREE from 'three'
 export function useStatics() {
   const urls = useMemo(
     () => [
-      '/images/ktx2/8.ktx2',
-      '/images/ktx2/9.ktx2',
-      '/images/ktx2/1.ktx2',
-      '/images/ktx2/2.ktx2',
-      '/images/ktx2/3.ktx2',
-      '/images/ktx2/4.ktx2',
+      '/images/ktx3/1-mehmet-erzincan-portfolio.ktx2',
+      '/images/ktx3/1-prod-antzoulis-main-book.ktx2',
+      '/images/ktx3/8-kawa-h-pour-main-portfolio.ktx2',
+      '/images/ktx3/8-mateusz-stankiewicz-main-book.ktx2',
+      '/images/ktx3/11-omar-khaleel-main-book.ktx2',
+      '/images/ktx3/12-kian-kanani-commercial-portrait.ktx2',
+      '/images/ktx3/14-omar-khaleel-main-book.ktx2',
+      '/images/ktx3/33-mehmet-erzincan-portfolio.ktx2',
+      '/images/ktx3/42-luka-booth-main-book.ktx2',
+      '/images/ktx3/49-luka-booth-main-book.ktx2',
+      '/images/ktx3/51-pablo-patane-main-book.ktx2',
+      '/images/ktx3/60-malak-kabbani-portfolio.ktx2',
+      '/images/ktx3/63-pablo-patane-main-book.ktx2',
+      '/images/ktx3/66-prod-antzoulis-main-book.ktx2',
+      '/images/ktx3/1-mehmet-erzincan-portfolio.ktx2',
+      '/images/ktx3/1-prod-antzoulis-main-book.ktx2',
+      '/images/ktx3/8-kawa-h-pour-main-portfolio.ktx2',
+      '/images/ktx3/8-mateusz-stankiewicz-main-book.ktx2',
+      '/images/ktx3/11-omar-khaleel-main-book.ktx2',
+      '/images/ktx3/12-kian-kanani-commercial-portrait.ktx2',
+      '/images/ktx3/14-omar-khaleel-main-book.ktx2',
+      '/images/ktx3/33-mehmet-erzincan-portfolio.ktx2',
+      '/images/ktx3/42-luka-booth-main-book.ktx2',
+      '/images/ktx3/49-luka-booth-main-book.ktx2',
+      '/images/ktx3/51-pablo-patane-main-book.ktx2',
+      '/images/ktx3/60-malak-kabbani-portfolio.ktx2',
+      '/images/ktx3/63-pablo-patane-main-book.ktx2',
+      '/images/ktx3/66-prod-antzoulis-main-book.ktx2',
       '/images/ktx2/6.ktx2',
       '/images/ktx2/7.ktx2',
       '/images/ktx2/8.ktx2',
       '/images/ktx2/9.ktx2',
-      '/images/ktx2/1.ktx2',
-      '/images/ktx2/2.ktx2',
-      '/images/ktx2/3.ktx2',
-      '/images/ktx2/4.ktx2',
-      '/images/ktx2/6.ktx2',
-      '/images/ktx2/7.ktx2',
-      '/images/ktx2/8.ktx2',
-      '/images/ktx2/9.ktx2',
-      '/images/ktx2/1.ktx2',
-      '/images/ktx2/2.ktx2',
-      '/images/ktx2/3.ktx2',
-      '/images/ktx2/4.ktx2',
-      '/images/ktx2/6.ktx2',
-      '/images/ktx2/7.ktx2',
-      '/images/ktx2/8.ktx2',
-      '/images/ktx2/9.ktx2',
-      '/images/ktx2/1.ktx2',
-      '/images/ktx2/2.ktx2',
-      '/images/ktx2/3.ktx2',
-      '/images/ktx2/4.ktx2',
-      '/images/ktx2/6.ktx2',
-      '/images/ktx2/7.ktx2',
     ],
     []
   )
@@ -98,8 +98,8 @@ export function useStatics() {
   const zMax = 8 // far
   const targetWidth = 2.25
   const targetHeight = 4.0
-  const gap = 1.8
-  const widthGap = 0.2
+  const gap = 2.8
+  const widthGap = 0.5
 
   const sizes = useMemo(() => {
     // cursor tracks the cumulative height of previous images plus gaps

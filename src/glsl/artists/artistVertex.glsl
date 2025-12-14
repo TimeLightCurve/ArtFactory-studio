@@ -32,14 +32,18 @@ void main() {
   float smoothedScale = pow(smoothstep(1.0, 2.0, uStackScale), 2.0);
 
   transformed.y += sin(transformed.y * 0.2 + uTime * 0.2 ) * 0.1 * ( 1.0 - progress2 );
-	transformed.x += sin(transformed.y* 0.15 + uTime * 0.15 ) * 0.16 * (1.0 - progress2 );
-	transformed.z += sin(transformed.x* 0.15 + uTime * 0.15 ) * 0.16 * (1.0 - progress2 );
+	// transformed.x += sin(transformed.y* 0.15 + uTime * 0.15 ) * 0.16 * (1.0 - progress2 );
+	transformed.z += sin(transformed.x* 0.15 + uTime * 0.15 ) * 0.56 * (1.0 - progress2 );
 	// transformed.z +=  mod(uIndex, 8.0) * 0.05 * ( 1.0 - progress1);
+
+  transformed.y += sin(transformed.x * 0.8 + uTime * 0.6 ) * 0.03;
+  transformed.z += sin(transformed.x * 58.55 + uTime * 0.85 ) * 0.1;
 
   float progress = clamp((uTime - uStartTime) / max(uDuration, 0.0001), 0.0, 1.0);
   // Animate 0->1 if triggered (expand), 1->0 if not triggered (contract)
   float enter = mix(1.0 - progress, progress, uTriggered);
-  float scrollDirection = smoothstep(-1.0, 1.0, uDirection) * 2.0 - 1.0;
+  // float scrollDirection = smoothstep(-1.0, 1.0, uDirection) * 2.0 - 1.0;
+  float scrollDirection = 1.0;
   float pingpong = smoothstep(-1.0, 1.0, pow(abs(uNameOnly), 0.95)) ;
 
   // Corners first, image after

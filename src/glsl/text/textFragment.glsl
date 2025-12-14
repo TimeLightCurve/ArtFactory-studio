@@ -9,6 +9,7 @@ uniform float uStartTime;
 uniform float uDuration;
 uniform float uTriggered;
 uniform float uResolutionY;
+uniform float uColorTransition;
 
 // Corner controls (UV space units, 0..1)
 uniform float uCornerLen;    // e.g. 0.12
@@ -125,9 +126,14 @@ void main() {
 	vec3 blue = vec3( 0.61, 0.75, 0.78 );
 	vec3 sBlue = vec3( 0.73, 0.75, 0.76 );
 
+	vec3 black = vec3( 0.0, 0.0, 0.0 );
+	vec3 white = vec3(1.0, 1.0, 1.0);
+
 	vec4 l1 = vec4( 0.09, 0.09, 0.09, 0.0 );
-	vec4 l2 = vec4(0.09, 0.09, 0.09 , 0.94);
-	vec4 l3 = vec4(0.0, 0.0, 0.0 , 1.0);
+	// vec4 l2 = vec4(0.09, 0.09, 0.09 , 0.94);
+	vec4 l2 = mix(  vec4(white, 0.94), vec4(black, 0.94),uColorTransition);
+	// vec4 l3 = vec4(0.0, 0.0, 0.0 , 1.0);
+	vec4 l3 = mix(  vec4(white, 1.0), vec4(black, 1.0), uColorTransition);
 	// vec4 l4 = vec4(0.0, 0.0, 0.0 , 1.0);
 
 	vec2 p = (gl_FragCoord.xy/uResolutionY) * 2.0 - 1.0;

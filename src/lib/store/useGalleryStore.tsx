@@ -6,7 +6,10 @@ type GalleryState = {
 	setCameraZ: (cameraZ: number) => void
 	wheelOpened: boolean
 	setWheelOpened: (opened: boolean) => void
-
+	darkMode: boolean
+	setDarkMode: (darkMode: boolean) => void
+	nameListToggled: boolean
+	setNameListToggled: (toggled: boolean) => void
 }
 
 export const useGalleryStore = create<GalleryState>((set) => ({
@@ -14,5 +17,8 @@ export const useGalleryStore = create<GalleryState>((set) => ({
 	setCameraZ: (cameraZ) => set({ cameraZ }),
 	wheelOpened: false,
 	setWheelOpened: (opened) => set({ wheelOpened: opened }),
-
+	darkMode: true,
+	setDarkMode: (darkMode) => set({ darkMode }),
+	nameListToggled: false,
+	setNameListToggled: (toggled) => set({ nameListToggled: toggled }),
 }))
