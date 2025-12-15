@@ -148,8 +148,8 @@ export default function MobileBgPlane() {
 		// customShaderRef.current.uHovered = 0
 	})
   return (
-	<mesh position={[0, 0, -8.8]}>
-		<planeGeometry args={[11.5, 25, 40, 200]}
+	<mesh position={[0, 1.2, -12.5]}>
+		<planeGeometry args={[12, 25, 40, 200]}
 		/>
 		<mobileBgShaderMaterial
 			ref={customShaderRef}

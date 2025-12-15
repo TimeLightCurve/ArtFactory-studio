@@ -49,7 +49,11 @@ void main() {
   // Corners first, image after
   float enterAnimation = mix(0.0, 1.0, smoothstep(-0.9, 0.85, enter)); 
   transformed.x += (1.0 - enterAnimation) * -0.5  * scrollDirection;
-  transformed.y += (1.0 - enterAnimation) * -2.2 *  pow((1.0 - uv.x), 2.0)  * -0.15 * uIndex * 0.05 * scrollDirection  ;
+  transformed.y += (1.0 - enterAnimation) * -2.2 *  pow((1.0 - uv.x), 2.0)  * -0.15 * uIndex * 0.05 * scrollDirection;
+  
+  float enter2 = mix(0.0, 1.0, smoothstep(-0.8, 0.88, enter));
+
+  transformed.z += enter2 * 2.6;
   // transformed.y += (1.0 - enterAnimation) *  ;
   // transformed.z += (1.0 - enterAnimation) * 0.6  * scrollDirection * pow(uv.x, 2.0) + uIndex * 0.1 * pingpong;
   // transformed.z += uIndex * 0.1 * pingpong;

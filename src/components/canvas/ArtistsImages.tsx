@@ -54,7 +54,7 @@ export default function ArtistImages() {
 	const sharedDirection = useMemo(() => new THREE.Uniform(1), [])
 	// NEW: Shared uniform for name list animation to reduce draw calls/updates
 	const sharedNameListProgress = useMemo(() => new THREE.Uniform(0), [])
-	const sharedColorTransition = useMemo(() => new THREE.Uniform(1), [])
+	// const sharedColorTransition = useMemo(() => new THREE.Uniform(1), [])
 	const sharedThemeColorTransition = useMemo(() => new THREE.Uniform(1), [])
 
 	const nameListShowRef = useRef(false)
@@ -401,7 +401,7 @@ export default function ArtistImages() {
 			// animate the whole group from -200 to 0 once 
 			easing.damp3(
 				group1Ref.current!.position,
-				new THREE.Vector3(2, 2, -1),
+				new THREE.Vector3(2, 2, -3),
 				0.5,
 				dt,
 			)

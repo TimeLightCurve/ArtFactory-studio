@@ -38,6 +38,8 @@ void main() {
 	transformed.x += sin(transformed.y* 0.2 + uTime * 2.0 ) * 0.1 * (1.0 - progress2 );
 	transformed.x += -0.8 * ( 1.0 - progress1);
 
+  
+
   float scrollDirection = 1.0;
   float pingpong = smoothstep(-1.0, 1.0, pow(abs(uIndex), 0.95)) ;
 
@@ -45,6 +47,7 @@ void main() {
 
 float enterAnimation = mix(0.0, 1.0, smoothstep(-1.0, 0.98, enter)); 
   transformed.x += (1.0 - enterAnimation) * -0.8  * scrollDirection;
+  transformed.z += enterAnimation * 3.3;
   // transformed.y -= uTotalHeight - uImageHeight * 0.0 - pow(smoothedScale, 4.0) * (uImageHeight * 0.5 * columnChecker);
   // transformed.y -= uTotalHeight;
   // transformed.x += pow(smoothedScale, 2.0) * (columnChecker * 2.0 - 1.0) ;

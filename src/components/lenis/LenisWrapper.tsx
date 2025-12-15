@@ -20,7 +20,7 @@ export default function LenisWrapper({children}:{children: ReactNode}) {
 	}, [])
 
   return (
-	  <ReactLenis root options={{  autoRaf: false }} ref={lenisRef} >
+	  <ReactLenis root options={{  autoRaf: false, syncTouch: true }} ref={lenisRef} >
 		{children}
 	  </ReactLenis>
 
